@@ -48,18 +48,13 @@
 #define Ra 31
 #define Sp 29
 
-
 // 'using namespace' statement to allow access to all
 // mips1-specific datatypes
 using namespace mips1_parms;
-int count_R;
-int count_I;
-int count_J;
-int count_tot;
 
 //!Generic instruction behavior method.
 void ac_behavior( instruction )
-{ 
+{
   dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
   //  dbg_printf("----- PC=%#x NPC=%#x ----- %lld\n", (int) ac_pc, (int)npc, ac_instr_counter);
 #ifndef NO_NEED_PC_UPDATE
@@ -67,20 +62,100 @@ void ac_behavior( instruction )
   npc = ac_pc + 4;
 #endif 
 };
- 
+
+long int mytyper = 0;
+long int mytypei = 0;
+long int mytypej = 0;
+
+unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;
+unsigned int memwb_rd = 1000, memwb_rs = 1000, memwb_rt = 1000;
+
+bool aux_mem = false;
+bool reg_write = false;
+
+long int ex_hazards = 0;
+long int mem_hazards = 0;
+
+bool load = false;
+long int stall = 0;
+
 //! Instruction Format behavior methods.
-void ac_behavior( Type_R ){
+void ac_behavior( Type_R ){ 
+	mytyper++;
 	
-	count_R++;
+	if (reg_write && (exmem_rd != 0) && ((exmem_rd == rs) || (exmem_rd == rt))) { // EX Hazard
+		aux_mem = true;
+		ex_hazards += 2;
+		
+		if (load) stall++;
+		load = false;
 	}
-void ac_behavior( Type_I ){
-	count_I++;
 	
+	if (reg_write && (memwb_rd !=0) && !(aux_mem) && ((memwb_rd == rs) || (memwb_rd == rt))) { // MEM Hazard
+		mem_hazards++;
+		// printf("2 - %d\n", mem_hazards);
 	}
-void ac_behavior( Type_J ){
-	count_J++;
 	
+	aux_mem = false;
+	reg_write = false;
+	
+	memwb_rd = exmem_rd;
+	memwb_rs = exmem_rs;
+	memwb_rt = exmem_rt; 
+
+	// printf("BEFORE r%d, r%d, r%d\n", exmem_rd, exmem_rs, exmem_rt);
+
+	exmem_rd = rd;
+	exmem_rs = rs;
+	exmem_rt = rt;
+
+
+	// printf("TYPE_R r%d, r%d, r%d\n\n", rd, rs, rt);
+
+}
+
+void ac_behavior( Type_I ){ 
+	mytypei++;
+	
+	if (reg_write && (exmem_rd != 0) && ((exmem_rd == rs) || (exmem_rd == rt))) { // EX Hazard
+		aux_mem = true;
+		ex_hazards += 2;
+		// printf("1 - %d\n", ex_hazards);
+		
 	}
+	
+	if (reg_write && (memwb_rd !=0) && !(aux_mem) && ((memwb_rd == rs) || (memwb_rd == rt))) { // MEM Hazard
+		mem_hazards++;
+		// printf("2 - %d\n", mem_hazards);
+	}
+	
+	aux_mem = false;
+	reg_write = false;
+	
+	memwb_rd = exmem_rd;
+	memwb_rs = exmem_rs;
+	memwb_rt = exmem_rt; 
+	
+	// printf("BEFORE r%d, r%d, r%d\n", exmem_rd, exmem_rs, exmem_rt);
+
+	exmem_rd = rt;
+	exmem_rs = rs;
+	// exmem_rt = rt;
+	
+	// printf("TYPE_I r%d, %d(r%d)\n\n", rt, imm & 0xFFFF, rs);		
+}
+
+void ac_behavior( Type_J ){ 
+	mytypej++;
+	
+	memwb_rd = exmem_rd;
+	memwb_rs = exmem_rs;
+	memwb_rt = exmem_rt; 
+	
+	// 	printf("TYTPE_J %d\n", addr);
+}
+ 
+int nadds = 0;
 //!Behavior called before starting simulation
 void ac_behavior(begin)
 {
@@ -99,12 +174,12 @@ void ac_behavior(begin)
 void ac_behavior(end)
 {
   dbg_printf("@@@ end behavior @@@\n");
-
-	printf("\n\n\nQuantidade de intruções do Formato R executados:%i\n ", count_R);
-  	printf("\n\nQuantidade de intruções do Formato I executados:%i\n ", count_I);
-  	printf("\n\nQuantidade de intruções do Formato J executados:%i\n ", count_J);
-	count_tot = count_R + count_I + count_J;
-	printf("\n\nQuantidade de intruções total executados:%i\n ", count_tot);
+  printf("\n---------- MINHAS SAIDAS ---------- \n\n");
+  printf("Numero de ADDS: %d\n", nadds);
+  printf("TYPE_R: %Ld, TYPE_I: %Ld, TYPE_J: %Ld\n", mytyper, mytypei, mytypej);
+  printf("EX: %d, MEM: %d\n", ex_hazards, mem_hazards);
+  printf("Stall: %d\n", stall);
+  printf("\n---------- MINHAS SAIDAS ---------- \n\n");
 }
 
 
@@ -116,6 +191,8 @@ void ac_behavior( lb )
   byte = DM.read_byte(RB[rs]+ imm);
   RB[rt] = (ac_Sword)byte ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
+  load = true;
 };
 
 //!Instruction lbu behavior method.
@@ -126,6 +203,8 @@ void ac_behavior( lbu )
   byte = DM.read_byte(RB[rs]+ imm);
   RB[rt] = byte ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
+  load = true;
 };
 
 //!Instruction lh behavior method.
@@ -136,6 +215,7 @@ void ac_behavior( lh )
   half = DM.read_half(RB[rs]+ imm);
   RB[rt] = (ac_Sword)half ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  load = true;
 };
 
 //!Instruction lhu behavior method.
@@ -145,6 +225,8 @@ void ac_behavior( lhu )
   half = DM.read_half(RB[rs]+ imm);
   RB[rt] = half ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
+  load = true;
 };
 
 //!Instruction lw behavior method.
@@ -153,6 +235,8 @@ void ac_behavior( lw )
   dbg_printf("lw r%d, %d(r%d)\n", rt, imm & 0xFFFF, rs);
   RB[rt] = DM.read(RB[rs]+ imm);
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
+  load = true;
 };
 
 //!Instruction lwl behavior method.
@@ -169,6 +253,8 @@ void ac_behavior( lwl )
   data |= RB[rt] & ((1<<offset)-1);
   RB[rt] = data;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
+  load = true;
 };
 
 //!Instruction lwr behavior method.
@@ -185,6 +271,8 @@ void ac_behavior( lwr )
   data |= RB[rt] & (0xFFFFFFFF << (32-offset));
   RB[rt] = data;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
+  load = true;
 };
 
 //!Instruction sb behavior method.
@@ -258,6 +346,7 @@ void ac_behavior( addi )
        ((imm & 0x80000000) != (RB[rt] & 0x80000000)) ) {
     fprintf(stderr, "EXCEPTION(addi): integer overflow.\n"); exit(EXIT_FAILURE);
   }
+  reg_write = true;
 };
 
 //!Instruction addiu behavior method.
@@ -266,6 +355,7 @@ void ac_behavior( addiu )
   dbg_printf("addiu r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
   RB[rt] = RB[rs] + imm;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
 };
 
 //!Instruction slti behavior method.
@@ -300,6 +390,7 @@ void ac_behavior( andi )
   dbg_printf("andi r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
   RB[rt] = RB[rs] & (imm & 0xFFFF) ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
 };
 
 //!Instruction ori behavior method.
@@ -308,6 +399,7 @@ void ac_behavior( ori )
   dbg_printf("ori r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
   RB[rt] = RB[rs] | (imm & 0xFFFF) ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
 };
 
 //!Instruction xori behavior method.
@@ -316,6 +408,7 @@ void ac_behavior( xori )
   dbg_printf("xori r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
   RB[rt] = RB[rs] ^ (imm & 0xFFFF) ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
 };
 
 //!Instruction lui behavior method.
@@ -327,12 +420,13 @@ void ac_behavior( lui )
   // and moved to the target register ( rt )
   RB[rt] = imm << 16;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
 };
 
 //!Instruction add behavior method.
 void ac_behavior( add )
 {
-
+  nadds++;
   dbg_printf("add r%d, r%d, r%d\n", rd, rs, rt);
   RB[rd] = RB[rs] + RB[rt];
   dbg_printf("Result = %#x\n", RB[rd]);
@@ -341,6 +435,7 @@ void ac_behavior( add )
        ((RB[rd] & 0x80000000) != (RB[rt] & 0x80000000)) ) {
     fprintf(stderr, "EXCEPTION(add): integer overflow.\n"); exit(EXIT_FAILURE);
   }
+  reg_write = true;
 };
 
 //!Instruction addu behavior method.
@@ -351,6 +446,7 @@ void ac_behavior( addu )
   //cout << "  RS: " << (unsigned int)RB[rs] << " RT: " << (unsigned int)RB[rt] << endl;
   //cout << "  Result =  " <<  (unsigned int)RB[rd] <<endl;
   dbg_printf("Result = %#x\n", RB[rd]);
+  reg_write = true;
 };
 
 //!Instruction sub behavior method.
@@ -360,6 +456,7 @@ void ac_behavior( sub )
   RB[rd] = RB[rs] - RB[rt];
   dbg_printf("Result = %#x\n", RB[rd]);
   //TODO: test integer overflow exception for sub
+  reg_write = true;
 };
 
 //!Instruction subu behavior method.
@@ -368,6 +465,7 @@ void ac_behavior( subu )
   dbg_printf("subu r%d, r%d, r%d\n", rd, rs, rt);
   RB[rd] = RB[rs] - RB[rt];
   dbg_printf("Result = %#x\n", RB[rd]);
+  reg_write = true;
 };
 
 //!Instruction slt behavior method.
@@ -502,6 +600,7 @@ void ac_behavior( mult )
   hi = half_result ;
 
   dbg_printf("Result = %#llx\n", result);
+  reg_write = true;
 };
 
 //!Instruction multu behavior method.
@@ -524,6 +623,7 @@ void ac_behavior( multu )
   hi = half_result ;
 
   dbg_printf("Result = %#llx\n", result);
+  reg_write = true;
 };
 
 //!Instruction div behavior method.
@@ -534,6 +634,7 @@ void ac_behavior( div )
   lo = (ac_Sword) RB[rs] / (ac_Sword) RB[rt];
   // Register HI receives remainder
   hi = (ac_Sword) RB[rs] % (ac_Sword) RB[rt];
+  reg_write = true;
 };
 
 //!Instruction divu behavior method.
@@ -544,6 +645,7 @@ void ac_behavior( divu )
   lo = RB[rs] / RB[rt];
   // Register HI receives remainder
   hi = RB[rs] % RB[rt];
+  reg_write = true;
 };
 
 //!Instruction mfhi behavior method.
