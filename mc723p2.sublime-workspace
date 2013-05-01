@@ -1,0 +1,253 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"SE",
+				"SETBOOKSTOCK"
+			],
+			[
+				"SERV_POR",
+				"SERV_PORT_STR"
+			],
+			[
+				"SERV",
+				"SERV_PORT_STR"
+			],
+			[
+				"entry",
+				"entrynumber"
+			],
+			[
+				"free",
+				"freebookdata"
+			],
+			[
+				"sele",
+				"selection_orders"
+			],
+			[
+				"if",
+				"if	if"
+			],
+			[
+				"resp",
+				"responseBaseBody"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/marcelotoledo/Desktop/Questões a serem tratadas hoje a noite (25:13)",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/readn.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/sandbox.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/methodmapping.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/wrappers.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/methodmapping.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/error.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/danube_server.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/dbhandle.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/writen.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/readline.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/tcp_listen.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/tcpserver.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/unp.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/bookentry.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/wrapunix.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/write_fd.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/writable_timeo.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/wrapstdio.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/m_server/signal.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/wrapsock.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/wraplib.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/writen.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/unp.h",
+		"/Users/marcelotoledo/Desktop/unpv13e/config.h",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/signal.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/readline.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/str_echo.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/lib/tcp_listen.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/server/Makefile",
+		"/Users/marcelotoledo/Desktop/unpv13e/tcpcliserv/sigchldwaitpid.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/tcpcliserv/sigchldwait.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/tcpcliserv/sigchldwait.lc",
+		"/Users/marcelotoledo/Desktop/unpv13e/server/serv01.c",
+		"/Users/marcelotoledo/Desktop/unpv13e/README",
+		"/Users/marcelotoledo/Desktop/autoconf-2.69/README",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/tcpserver.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/helper.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/helper.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/unp.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/unp.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/test.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/methodmapping.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/methodmapping.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/Makefile",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/danubedb.sublime-project",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/bookentry.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/bookentry.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/dbhandle.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/dbhandle.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/server/database/dbdefinitions.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC723/Projeto 1/f_pc_names.p",
+		"/Users/marcelotoledo/Desktop/selector-stub.js",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC723/Projeto 1/f_pc_scores.p",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/auxiliar.c",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/auxiliar.h",
+		"/Users/marcelotoledo/Dropbox/UNICAMP/MC823/Danube/main.c",
+		"/Library/Python/2.7/site-packages/PIL.pth",
+		"/Users/marcelotoledo/Desktop/eternidade",
+		"/Users/marcelotoledo/Desktop/s2messagereceive",
+		"/Users/marcelotoledo/Desktop/s2messagesend",
+		"/Users/marcelotoledo/Desktop/eternidade.txt",
+		"/Users/marcelotoledo/Desktop/python_test/classes/node.py",
+		"/Users/marcelotoledo/Desktop/python_test/classes/order.py",
+		"/Users/marcelotoledo/Desktop/python_test/classes/point.py",
+		"/Users/marcelotoledo/Desktop/python_test/classes/route.py",
+		"/Users/marcelotoledo/Desktop/huws-sms-db.sqlite-wal",
+		"/Users/marcelotoledo/Desktop/t"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			") ",
+			"sig_c",
+			"));\n",
+			"response"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"entry"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.552884672197,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 25.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
