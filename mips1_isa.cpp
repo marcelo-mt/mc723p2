@@ -43,20 +43,100 @@
 //#define DEBUG_MODEL
 #include "ac_debug_model.H"
 
+// Container de C++
+#include <vector>
+#define FASES 5
 
 //!User defined macros to reference registers.
 #define Ra 31
 #define Sp 29
 
+struct Onebit{
+	long int endereco;
+	bool state;
+};
+
 // 'using namespace' statement to allow access to all
 // mips1-specific datatypes
 using namespace mips1_parms;
+using namespace std;
+
+enum estagios
+{
+	IF_ID,
+	ID_EX,
+	EX_MEM,
+	MEM_WB
+};
+
+class fase {
+	public:
+		bool init;
+		bool regWrite;
+		int inst;
+		int rs, rt, rd;
+		int imm;
+		int addr;
+
+};
+
+int forward1A = 0;
+int forward1B = 0;
+int forward2A = 0;
+int forward2B = 0;
+
+vector < fase > pipeline (FASES-1);
+// Exemplo: pipeline de 5 estagios
+//  IF | ID | EX | MEM | WB
+//    [0]  [1]  [2]   [3] 
 
 //!Generic instruction behavior method.
 void ac_behavior( instruction )
 {
   dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
+  // Se a fase existir realmente
+  // Ou seja nao for a inicial
+// Instrucoes de load
+if (pipeline[ID_EX].inst < 8) {
+	pipeline[ID_EX].regWrite = true;
+}
+  if(pipeline[MEM_WB].init) {
+		if (pipeline[EX_MEM].regWrite &&
+				pipeline[EX_MEM].rd &&
+				pipeline[EX_MEM].rd == pipeline[ID_EX].rs) {
+			forward2A++;
+		}
+		if (pipeline[EX_MEM].regWrite &&
+				pipeline[EX_MEM].rd &&
+				pipeline[EX_MEM].rd == pipeline[ID_EX].rt) {
+			forward2B++;
+		}
+		if (pipeline[MEM_WB].regWrite &&
+			pipeline[MEM_WB].rd &&
+			pipeline[MEM_WB].rd == pipeline[ID_EX].rs
+		//	&&
+		//	!(pipeline[EX_MEM].regWrite && pipeline[EX_MEM].rd) 
+			) {
+		//	if (pipeline[EX_MEM].rd != pipeline[ID_EX].rt)
+				forward1A++;
+		}
+		if (pipeline[MEM_WB].regWrite &&
+				pipeline[MEM_WB].rd &&
+				pipeline[MEM_WB].rd == pipeline[ID_EX].rt) {
+			forward1B++;
+		}
+  }
+
   //  dbg_printf("----- PC=%#x NPC=%#x ----- %lld\n", (int) ac_pc, (int)npc, ac_instr_counter);
+  //
+  //
+  //  Fazendo o pipeline rodar
+	pipeline.pop_back(); 		// Fim da fase WB
+	fase f;				// Nova fase
+	f.init = true;			// Fase existente
+//	pipeline.push_front(f);
+	pipeline.insert(pipeline.begin(),f);	// Nova fase no pipeline
+
 #ifndef NO_NEED_PC_UPDATE
   ac_pc = npc;
   npc = ac_pc + 4;
@@ -79,9 +159,53 @@ long int mem_hazards = 0;
 bool load = false;
 long int stall = 0;
 
+long int branch_count = 0;
+long int not_taken = 0;
+long int always_taken = 0;
+
+Onebit one_bit_preditor[10000000];
+long int one_bit_count = 0;
+bool branch_state_aux;
+
+bool naive = false;
+long int naive_count = 0;
+
+void OneBitFunc(int imediato, bool branch_state){
+	for(int i = 0; i < 10000000; i++){
+		if (i == 9999999) printf("FODEUUUU");
+		if (one_bit_preditor[i].endereco == imediato){
+			if (branch_state != one_bit_preditor[i].state){
+				one_bit_preditor[i].state = branch_state;
+				one_bit_count++;
+			}
+		break;
+		}
+		if (one_bit_preditor[i].endereco == 0){
+			one_bit_preditor[i].endereco = imediato;
+			if (branch_state != one_bit_preditor[i].state){
+				one_bit_preditor[i].state = branch_state;
+				one_bit_count++;
+			}
+		break;
+		}
+	}
+}
+
+void NaiveFunc(bool branch_state){
+	if (branch_state != naive) {
+		naive = branch_state;
+		naive_count++;
+	}
+}	
+
 //! Instruction Format behavior methods.
 void ac_behavior( Type_R ){ 
+	// Registradores descobertos na fase IF->ID
+	pipeline[IF_ID].rd = rd;
+	pipeline[IF_ID].rs = rs;
+	pipeline[IF_ID].rt = rt;
 	mytyper++;
+	
 	
 	if (reg_write && (exmem_rd != 0) && ((exmem_rd == rs) || (exmem_rd == rt))) { // EX Hazard
 		aux_mem = true;
@@ -115,6 +239,10 @@ void ac_behavior( Type_R ){
 }
 
 void ac_behavior( Type_I ){ 
+	// Registradores descobertos na fase IF->ID
+	pipeline[IF_ID].rs = rs;
+	pipeline[IF_ID].rt = rt;
+	pipeline[IF_ID].imm = imm;
 	mytypei++;
 	
 	if (reg_write && (exmem_rd != 0) && ((exmem_rd == rs) || (exmem_rd == rt))) { // EX Hazard
@@ -146,6 +274,8 @@ void ac_behavior( Type_I ){
 }
 
 void ac_behavior( Type_J ){ 
+	// Registradores descobertos na fase IF->ID
+	pipeline[IF_ID].addr = addr;
 	mytypej++;
 	
 	memwb_rd = exmem_rd;
@@ -168,6 +298,11 @@ void ac_behavior(begin)
     RB[regNum] = 0;
   hi = 0;
   lo = 0;
+  
+  for (int i = 0; i < 10000000; i++){
+  	one_bit_preditor[i].endereco = 0;
+  	one_bit_preditor[i].state = false;
+  } 
 }
 
 //!Behavior called after finishing simulation
@@ -179,7 +314,11 @@ void ac_behavior(end)
   printf("TYPE_R: %Ld, TYPE_I: %Ld, TYPE_J: %Ld\n", mytyper, mytypei, mytypej);
   printf("EX: %d, MEM: %d\n", ex_hazards, mem_hazards);
   printf("Stall: %d\n", stall);
+  printf("Branch: %d | Not Taken: %d | Always Taken: %d\n", branch_count, not_taken, always_taken);
+  printf("1-bit Preditor: %d\n", one_bit_count);
+  printf("Naive: %d\n", naive_count);
   printf("\n---------- MINHAS SAIDAS ---------- \n\n");
+  cout << forward1A << " " << forward1B << " " << forward2A << " " << forward2B << endl;
 }
 
 
@@ -215,6 +354,7 @@ void ac_behavior( lh )
   half = DM.read_half(RB[rs]+ imm);
   RB[rt] = (ac_Sword)half ;
   dbg_printf("Result = %#x\n", RB[rt]);
+  reg_write = true;
   load = true;
 };
 
@@ -742,78 +882,116 @@ void ac_behavior( jalr )
 //!Instruction beq behavior method.
 void ac_behavior( beq )
 {
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("beq r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
   if( RB[rs] == RB[rt] ){
 #ifndef NO_NEED_PC_UPDATE
     npc = ac_pc + (imm<<2);
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
 };
 
 //!Instruction bne behavior method.
 void ac_behavior( bne )
-{	
+{
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("bne r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
   if( RB[rs] != RB[rt] ){
 #ifndef NO_NEED_PC_UPDATE
     npc = ac_pc + (imm<<2);
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
 };
 
 //!Instruction blez behavior method.
 void ac_behavior( blez )
 {
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("blez r%d, %d\n", rs, imm & 0xFFFF);
   if( (RB[rs] == 0 ) || (RB[rs]&0x80000000 ) ){
 #ifndef NO_NEED_PC_UPDATE
     npc = ac_pc + (imm<<2), 1;
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
 };
 
 //!Instruction bgtz behavior method.
 void ac_behavior( bgtz )
 {
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("bgtz r%d, %d\n", rs, imm & 0xFFFF);
   if( !(RB[rs] & 0x80000000) && (RB[rs]!=0) ){
 #ifndef NO_NEED_PC_UPDATE
     npc = ac_pc + (imm<<2);
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
 };
 
 //!Instruction bltz behavior method.
 void ac_behavior( bltz )
 {
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("bltz r%d, %d\n", rs, imm & 0xFFFF);
   if( RB[rs] & 0x80000000 ){
 #ifndef NO_NEED_PC_UPDATE
     npc = ac_pc + (imm<<2);
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
 };
 
 //!Instruction bgez behavior method.
 void ac_behavior( bgez )
 {
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("bgez r%d, %d\n", rs, imm & 0xFFFF);
   if( !(RB[rs] & 0x80000000) ){
 #ifndef NO_NEED_PC_UPDATE
     npc = ac_pc + (imm<<2);
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
 };
 
 //!Instruction bltzal behavior method.
 void ac_behavior( bltzal )
 {
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("bltzal r%d, %d\n", rs, imm & 0xFFFF);
   RB[Ra] = ac_pc+4; //ac_pc is pc+4, we need pc+8
   if( RB[rs] & 0x80000000 ){
@@ -821,13 +999,19 @@ void ac_behavior( bltzal )
     npc = ac_pc + (imm<<2);
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
   dbg_printf("Return = %#x\n", ac_pc+4);
 };
 
 //!Instruction bgezal behavior method.
 void ac_behavior( bgezal )
 {
+  branch_count++;
+  branch_state_aux = false;
   dbg_printf("bgezal r%d, %d\n", rs, imm & 0xFFFF);
   RB[Ra] = ac_pc+4; //ac_pc is pc+4, we need pc+8
   if( !(RB[rs] & 0x80000000) ){
@@ -835,7 +1019,11 @@ void ac_behavior( bgezal )
     npc = ac_pc + (imm<<2);
 #endif 
     dbg_printf("Taken to %#x\n", ac_pc + (imm<<2));
-  }	
+    not_taken++;
+    branch_state_aux = true;
+  }	else always_taken++;
+  OneBitFunc(imm, branch_state_aux);
+  NaiveFunc(branch_state_aux);
   dbg_printf("Return = %#x\n", ac_pc+4);
 };
 
