@@ -1,10 +1,13 @@
 #include <pipeline.h>
 
+// Construtor sem instrucao
 fase::fase () {
 	this->init = false;
 	this->regWrite = false;
 	this->memRead = false;
 }
+
+// Construtor com instrucao
 fase::fase (int op) {
 	cout << op;
 	// Instrucoes de load

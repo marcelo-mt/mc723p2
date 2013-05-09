@@ -82,20 +82,12 @@ vector < fase > pipeline (FASES-1);
 //  IF | ID | EX | MEM | WB
 //    [0]  [1]  [2]   [3] 
 
-//!Generic instruction behavior method.
-void ac_behavior( instruction )
-{
-	dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
-
-	// Se a fase existir realmente
-	// Ou seja nao for a inicial
-	// Se o pipeline foi devidamente preenchido
-	// Ou seja o ultimo estagio esta' iniciado
+void verificaStalls () {
 	if(pipeline[MEM_WB].init) {
 		if (pipeline[EX_MEM].regWrite &&
 				pipeline[EX_MEM].rd &&
 				pipeline[EX_MEM].rd == pipeline[ID_EX].rs) {
-			noFstalls += 2;		// 2 stalls se nao tivesse forward
+			noFstalls += 1;		// 2 stalls se nao tivesse forward
 			forward2A++;
 		}
 		if (pipeline[EX_MEM].regWrite &&
@@ -125,6 +117,17 @@ void ac_behavior( instruction )
 				forward1B++;
 		}
 	}
+}
+
+//!Generic instruction behavior method.
+void ac_behavior( instruction )
+{
+	dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
+
+	// Se a fase existir realmente
+	// Ou seja nao for a inicial
+	// Se o pipeline foi devidamente preenchido
+	// Ou seja o ultimo estagio esta' iniciado
 
 	//  dbg_printf("----- PC=%#x NPC=%#x ----- %lld\n", (int) ac_pc, (int)npc, ac_instr_counter);
 	//
