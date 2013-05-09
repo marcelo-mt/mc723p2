@@ -220,6 +220,7 @@ archc_version	main.cpp	/^const char *archc_version="2.2";$/;"	v
 aux_mem	mips1_isa.cpp	/^bool aux_mem = false;$/;"	v
 behavior	mips1.cpp	/^void mips1::behavior() {$/;"	f	class:mips1
 bhv_pc	mips1.H	/^  unsigned bhv_pc;$/;"	m	class:mips1
+branch	pipeline.h	/^		bool branch;$/;"	m	class:fase
 branch_count	mips1_isa.cpp	/^int branch_count = 0;$/;"	v
 branch_state_aux	mips1_isa.cpp	/^bool branch_state_aux;$/;"	v
 cache_item_t	mips1.H	/^  typedef cache_item<mips1_parms::AC_DEC_FIELD_NUMBER> cache_item_t;$/;"	t	class:mips1
@@ -239,7 +240,6 @@ exmem_rt	mips1_isa.cpp	/^unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt
 fase	pipeline.cpp	/^fase::fase () {$/;"	f	class:fase
 fase	pipeline.cpp	/^fase::fase (int op) {$/;"	f	class:fase
 fase	pipeline.h	/^class fase {$/;"	c
-fib	fib.c	/^int fib (int n) {$/;"	f
 fields	mips1_isa.H	/^  static ac_dec_field fields[AC_DEC_FIELD_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
 fields	mips1_isa_init.cpp	/^ac_dec_field mips1_parms::mips1_isa::fields[mips1_parms::AC_DEC_FIELD_NUMBER] = {$/;"	m	class:mips1_parms::mips1_isa	file:
 formats	mips1_isa.H	/^  static ac_dec_format formats[AC_DEC_FORMAT_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
@@ -277,7 +277,6 @@ lo	mips1_arch.H	/^  ac_reg<mips1_parms::ac_word> lo;$/;"	m	class:mips1_arch
 lo	mips1_arch_ref.H	/^  ac_reg<mips1_parms::ac_word>& lo;$/;"	m	class:mips1_arch_ref
 load	mips1.cpp	/^void mips1::load(char* program) {$/;"	f	class:mips1
 load	mips1_isa.cpp	/^bool load = false;$/;"	v
-main	fib.c	/^int main () {$/;"	f
 main	hello.c	/^int main(){$/;"	f
 memRead	pipeline.h	/^		bool memRead;$/;"	m	class:fase
 mem_hazards	mips1_isa.cpp	/^int mem_hazards = 0;$/;"	v
@@ -333,6 +332,7 @@ start_up	mips1.H	/^  bool start_up;$/;"	m	class:mips1
 state	mips1_isa.cpp	/^	bool state;$/;"	m	struct:Onebit	file:
 stop	mips1.cpp	/^void mips1::stop(int status) {$/;"	f	class:mips1
 syscall	mips1_isa.H	/^  mips1_syscall syscall;$/;"	m	class:mips1_parms::mips1_isa
+verificaStalls	mips1_isa.cpp	/^void verificaStalls () {$/;"	f
 ~mips1	mips1.H	/^  virtual ~mips1() {};$/;"	f	class:mips1
 ~mips1_arch	mips1_arch.H	/^  virtual ~mips1_arch() {};$/;"	f	class:mips1_arch
 ~mips1_syscall	mips1_syscall.H	/^  virtual ~mips1_syscall() {};$/;"	f	class:mips1_syscall
