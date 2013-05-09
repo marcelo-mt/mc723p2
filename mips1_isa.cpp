@@ -87,7 +87,7 @@ void verificaStalls () {
 		if (pipeline[EX_MEM].regWrite &&
 				pipeline[EX_MEM].rd &&
 				pipeline[EX_MEM].rd == pipeline[ID_EX].rs) {
-			noFstalls += 1;		// 2 stalls se nao tivesse forward
+			noFstalls += 2;		// 2 stalls se nao tivesse forward
 			forward2A++;
 		}
 		if (pipeline[EX_MEM].regWrite &&
@@ -123,6 +123,8 @@ void verificaStalls () {
 void ac_behavior( instruction )
 {
 	dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
+
+	verificaStalls();
 
 	// Se a fase existir realmente
 	// Ou seja nao for a inicial
