@@ -136,21 +136,15 @@ void ac_behavior( instruction )
 
 	verificaStalls();
 
-	if (pipeline[IF_ID].branch) {
-		cout << endl << "acpc: " << ac_pc << " npc: " << npc << endl;
-		if (pipeline[IF_ID].acpc == ac_pc) {
-			cout << "Branch not taken " << ac_pc << " " << pipeline[IF_ID].acpc << endl;
-		}
-		else {
-			cout << "Branch taken" << endl;
-		}
-	}
-
 	// Se a fase existir realmente
 	// Ou seja nao for a inicial
 	// Se o pipeline foi devidamente preenchido
 	// Ou seja o ultimo estagio esta' iniciado
 
+	if (pipeline[IF_ID].branch) {
+		cout << endl << "ACPC: " << ac_pc << " NPC: " << npc << endl;
+	}
+	
 	//  dbg_printf("----- PC=%#x NPC=%#x ----- %lld\n", (int) ac_pc, (int)npc, ac_instr_counter);
 	//
 	//
@@ -162,6 +156,17 @@ void ac_behavior( instruction )
 	//	pipeline.push_front(f);
 	pipeline.insert(pipeline.begin(),f);	// Nova fase no pipeline
 
+	if (pipeline[IF_ID].branch) {
+		cout << endl << "acpc: " << ac_pc << " npc: " << npc << endl;
+		if (pipeline[IF_ID].acpc == ac_pc) {
+			cout << "Branch not taken " << ac_pc << " " << pipeline[IF_ID].acpc << endl;
+		}
+		else {
+			cout << "Branch taken "  << ac_pc << " " << pipeline[IF_ID].acpc << endl;
+		}
+	}
+
+	
 	// BRANCH PREDICTOR
 #ifndef NO_NEED_PC_UPDATE
 	ac_pc = npc;
@@ -170,7 +175,7 @@ void ac_behavior( instruction )
 
 
 	if (op==50) {
-		cout << "npc Geral: " << npc << endl;
+		cout << "acpc Geral: " << ac_pc << " | " << "npc Geral: " << npc << endl;
 		cout << "second" << endl;
 	}
 };
@@ -931,7 +936,7 @@ void ac_behavior( beq )
 		not_taken++;
 		branch_state_aux = true;
 	}	else always_taken++;
-	cout << "npc BEQ: " << npc << " ac_pc: " << ac_pc << " imm: " << imm << endl << endl;
+	cout << "BEQ: ac_pc: " << ac_pc << " npc " << npc << " imm: " << imm << endl << endl;
 	OneBitFunc(imm, branch_state_aux);
 	NaiveFunc(branch_state_aux);
 };
