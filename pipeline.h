@@ -6,7 +6,7 @@ class fase {
 	public:
 		// Construtores
 		fase ();	// Inicializacao do pipeline
-		fase (int);	// Fase valida
+		fase (int,int);	// Fase valida
 
 		bool init;
 		bool regWrite;
@@ -16,6 +16,7 @@ class fase {
 		int rs, rt, rd;
 		int imm;
 		int addr;
+		int acpc;
 
 		void setBranch ();
 };

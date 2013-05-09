@@ -96,7 +96,6 @@ void mips1::behavior() {
         if (!ac_annul_sig) ISA.behavior_lh(instr_vec->get(IDENT), instr_vec->get(2), instr_vec->get(3), instr_vec->get(7));
         break;
       case 4: // Instruction lhu
-	cout << "lhu!!" << instr_vec->get(IDENT) <<  endl;
         if (!ac_annul_sig) ISA._behavior_mips1_Type_I(instr_vec->get(IDENT), instr_vec->get(2), instr_vec->get(3), instr_vec->get(7));
         if (!ac_annul_sig) ISA.behavior_lhu(instr_vec->get(IDENT), instr_vec->get(2), instr_vec->get(3), instr_vec->get(7));
         break;
@@ -281,7 +280,6 @@ void mips1::behavior() {
         if (!ac_annul_sig) ISA.behavior_jalr(instr_vec->get(IDENT), instr_vec->get(2), instr_vec->get(3), instr_vec->get(4), instr_vec->get(5), instr_vec->get(6));
         break;
       case 50: // Instruction beq
-	cout << "BEQ!!" << instr_vec->get(IDENT) <<  endl;
         if (!ac_annul_sig) ISA._behavior_mips1_Type_I(instr_vec->get(IDENT), instr_vec->get(2), instr_vec->get(3), instr_vec->get(7));
         if (!ac_annul_sig) ISA.behavior_beq(instr_vec->get(IDENT), instr_vec->get(2), instr_vec->get(3), instr_vec->get(7));
         break;

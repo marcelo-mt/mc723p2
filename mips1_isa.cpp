@@ -75,6 +75,7 @@ int forward1A = 0;
 int forward1B = 0;
 int forward2A = 0;
 int forward2B = 0;
+int withFstalls = 0;
 int noFstalls = 0;	// Numero Stalls na ausencia de forwards
 
 vector < fase > pipeline (FASES-1);
@@ -102,9 +103,10 @@ void verificaStalls () {
 				&&
 				!(pipeline[EX_MEM].regWrite && pipeline[EX_MEM].rd) 
 		   ) {
-			if (pipeline[EX_MEM].rd != pipeline[ID_EX].rs)
+			if (pipeline[EX_MEM].rd != pipeline[ID_EX].rs) {
 				noFstalls += 1;		// 1 stall se nao tivesse forward
 				forward1A++;
+			}
 		}
 		if (pipeline[MEM_WB].regWrite &&
 				pipeline[MEM_WB].rd &&
@@ -112,11 +114,19 @@ void verificaStalls () {
 				&&
 				!(pipeline[EX_MEM].regWrite && pipeline[EX_MEM].rd) 
 		   ) {
-			if (pipeline[EX_MEM].rd != pipeline[ID_EX].rt)
+			if (pipeline[EX_MEM].rd != pipeline[ID_EX].rt) {
 				noFstalls += 1;		// 1 stall se nao tivesse forward
 				forward1B++;
+			}
 		}
-	}
+
+		if (pipeline[ID_EX].memRead &&
+			((pipeline[ID_EX].rt == pipeline[IF_ID].rs) ||
+			 (pipeline[ID_EX].rt == pipeline[IF_ID].rt)) )
+		{
+			withFstalls++;
+		}
+	} // if externo
 }
 
 //!Generic instruction behavior method.
@@ -125,6 +135,16 @@ void ac_behavior( instruction )
 	dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
 
 	verificaStalls();
+
+	if (pipeline[IF_ID].branch) {
+		cout << endl << "acpc: " << ac_pc << " npc: " << npc << endl;
+		if (pipeline[IF_ID].acpc == ac_pc) {
+			cout << "Branch not taken " << ac_pc << " " << pipeline[IF_ID].acpc << endl;
+		}
+		else {
+			cout << "Branch taken" << endl;
+		}
+	}
 
 	// Se a fase existir realmente
 	// Ou seja nao for a inicial
@@ -136,16 +156,23 @@ void ac_behavior( instruction )
 	//
 	//  Fazendo o pipeline rodar
 	pipeline.pop_back(); 		// Fim da fase WB
-	fase f(op);				// Nova fase e Armazenando instrucao
+	fase f(op,npc);		// Nova fase e Armazenando instrucao
 	f.init = true;			// Fase existente
 	//cout << op << endl;
 	//	pipeline.push_front(f);
 	pipeline.insert(pipeline.begin(),f);	// Nova fase no pipeline
 
+	// BRANCH PREDICTOR
 #ifndef NO_NEED_PC_UPDATE
 	ac_pc = npc;
 	npc = ac_pc + 4;
 #endif 
+
+
+	if (op==50) {
+		cout << "npc Geral: " << npc << endl;
+		cout << "second" << endl;
+	}
 };
 
 int mytyper = 0;
@@ -328,6 +355,7 @@ void ac_behavior(end)
 	printf("\n---------- MINHAS SAIDAS ---------- \n\n");
 	cout << forward1A << " " << forward1B << " " << forward2A << " " << forward2B << endl;
 	cout << "Numero de stalls se nao houvesse forward: " << noFstalls << endl;
+	cout << "Numero de stalls com forward: " << withFstalls << endl;
 }
 
 
@@ -891,8 +919,7 @@ void ac_behavior( jalr )
 //!Instruction beq behavior method.
 void ac_behavior( beq )
 {
-	// Constatando que e uma instrucao de branch
-	pipeline[IF_ID].setBranch();
+	cout << "first" << op << endl;
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("beq r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
@@ -904,6 +931,7 @@ void ac_behavior( beq )
 		not_taken++;
 		branch_state_aux = true;
 	}	else always_taken++;
+	cout << "npc BEQ: " << npc << " ac_pc: " << ac_pc << " imm: " << imm << endl << endl;
 	OneBitFunc(imm, branch_state_aux);
 	NaiveFunc(branch_state_aux);
 };
@@ -911,8 +939,6 @@ void ac_behavior( beq )
 //!Instruction bne behavior method.
 void ac_behavior( bne )
 {
-	// Constatando que e uma instrucao de branch
-	pipeline[IF_ID].setBranch();
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("bne r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
@@ -931,8 +957,6 @@ void ac_behavior( bne )
 //!Instruction blez behavior method.
 void ac_behavior( blez )
 {
-	// Constatando que e uma instrucao de branch
-	pipeline[IF_ID].setBranch();
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("blez r%d, %d\n", rs, imm & 0xFFFF);
@@ -951,8 +975,6 @@ void ac_behavior( blez )
 //!Instruction bgtz behavior method.
 void ac_behavior( bgtz )
 {
-	// Constatando que e uma instrucao de branch
-	pipeline[IF_ID].setBranch();
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("bgtz r%d, %d\n", rs, imm & 0xFFFF);
@@ -971,8 +993,6 @@ void ac_behavior( bgtz )
 //!Instruction bltz behavior method.
 void ac_behavior( bltz )
 {
-	// Constatando que e uma instrucao de branch
-	pipeline[IF_ID].setBranch();
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("bltz r%d, %d\n", rs, imm & 0xFFFF);
@@ -991,8 +1011,6 @@ void ac_behavior( bltz )
 //!Instruction bgez behavior method.
 void ac_behavior( bgez )
 {
-	// Constatando que e uma instrucao de branch
-	pipeline[IF_ID].setBranch();
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("bgez r%d, %d\n", rs, imm & 0xFFFF);

@@ -9,8 +9,9 @@ fase::fase () {
 }
 
 // Construtor com instrucao
-fase::fase (int op) {
+fase::fase (int op, int ac_pc) {
 	this->inst = op;
+	this->acpc = ac_pc;
 	this->branch = false;
 	
 	// Instrucoes de load
@@ -48,10 +49,7 @@ fase::fase (int op) {
 		(op >= 46 && op <= 49)		// Jump
 	   ) {
 		this->branch = true;
-		cout << "BRANCH!!!" << endl;
-	}
-	if (op>50) {
-		cout << op << endl;
+//		cout << "BRANCH!!!" << endl;
 	}
 }
 
