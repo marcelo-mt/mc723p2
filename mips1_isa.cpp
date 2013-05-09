@@ -45,6 +45,7 @@
 
 // Container de C++
 #include <vector>
+#include <pipeline.h>
 #define FASES 5
 
 //!User defined macros to reference registers.
@@ -69,22 +70,12 @@ enum estagios
 	MEM_WB
 };
 
-class fase {
-	public:
-		bool init;
-		bool regWrite;
-		int inst;
-		int rs, rt, rd;
-		int imm;
-		int addr;
-
-};
 
 int forward1A = 0;
 int forward1B = 0;
 int forward2A = 0;
 int forward2B = 0;
-int stalls = 0;
+int noFstalls = 0;	// Numero Stalls na ausencia de forwards
 
 vector < fase > pipeline (FASES-1);
 // Exemplo: pipeline de 5 estagios
@@ -95,24 +86,22 @@ vector < fase > pipeline (FASES-1);
 void ac_behavior( instruction )
 {
 	dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
+
 	// Se a fase existir realmente
 	// Ou seja nao for a inicial
-	// Instrucoes de load
-	if (pipeline[ID_EX].inst < 8) {
-		pipeline[ID_EX].regWrite = true;
-	}
-
 	// Se o pipeline foi devidamente preenchido
 	// Ou seja o ultimo estagio esta' iniciado
 	if(pipeline[MEM_WB].init) {
 		if (pipeline[EX_MEM].regWrite &&
 				pipeline[EX_MEM].rd &&
 				pipeline[EX_MEM].rd == pipeline[ID_EX].rs) {
+			noFstalls += 2;		// 2 stalls se nao tivesse forward
 			forward2A++;
 		}
 		if (pipeline[EX_MEM].regWrite &&
 				pipeline[EX_MEM].rd &&
 				pipeline[EX_MEM].rd == pipeline[ID_EX].rt) {
+			noFstalls += 2;		// 2 stalls se nao tivesse forward
 			forward2B++;
 		}
 		if (pipeline[MEM_WB].regWrite &&
@@ -122,6 +111,7 @@ void ac_behavior( instruction )
 				!(pipeline[EX_MEM].regWrite && pipeline[EX_MEM].rd) 
 		   ) {
 			if (pipeline[EX_MEM].rd != pipeline[ID_EX].rs)
+				noFstalls += 1;		// 1 stall se nao tivesse forward
 				forward1A++;
 		}
 		if (pipeline[MEM_WB].regWrite &&
@@ -131,6 +121,7 @@ void ac_behavior( instruction )
 				!(pipeline[EX_MEM].regWrite && pipeline[EX_MEM].rd) 
 		   ) {
 			if (pipeline[EX_MEM].rd != pipeline[ID_EX].rt)
+				noFstalls += 1;		// 1 stall se nao tivesse forward
 				forward1B++;
 		}
 	}
@@ -140,8 +131,9 @@ void ac_behavior( instruction )
 	//
 	//  Fazendo o pipeline rodar
 	pipeline.pop_back(); 		// Fim da fase WB
-	fase f;				// Nova fase
+	fase f(op);				// Nova fase e Armazenando instrucao
 	f.init = true;			// Fase existente
+	//cout << op << endl;
 	//	pipeline.push_front(f);
 	pipeline.insert(pipeline.begin(),f);	// Nova fase no pipeline
 
@@ -151,9 +143,9 @@ void ac_behavior( instruction )
 #endif 
 };
 
-long int mytyper = 0;
-long int mytypei = 0;
-long int mytypej = 0;
+int mytyper = 0;
+int mytypei = 0;
+int mytypej = 0;
 
 unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;
 unsigned int memwb_rd = 1000, memwb_rs = 1000, memwb_rt = 1000;
@@ -161,22 +153,22 @@ unsigned int memwb_rd = 1000, memwb_rs = 1000, memwb_rt = 1000;
 bool aux_mem = false;
 bool reg_write = false;
 
-long int ex_hazards = 0;
-long int mem_hazards = 0;
+int ex_hazards = 0;
+int mem_hazards = 0;
 
 bool load = false;
-long int stall = 0;
+int stall = 0;
 
-long int branch_count = 0;
-long int not_taken = 0;
-long int always_taken = 0;
+int branch_count = 0;
+int not_taken = 0;
+int always_taken = 0;
 
 Onebit one_bit_preditor[10000000];
-long int one_bit_count = 0;
+int one_bit_count = 0;
 bool branch_state_aux;
 
 bool naive = false;
-long int naive_count = 0;
+int naive_count = 0;
 
 void OneBitFunc(int imediato, bool branch_state){
 	for(int i = 0; i < 10000000; i++){
@@ -319,7 +311,7 @@ void ac_behavior(end)
 	dbg_printf("@@@ end behavior @@@\n");
 	printf("\n---------- MINHAS SAIDAS ---------- \n\n");
 	printf("Numero de ADDS: %d\n", nadds);
-	printf("TYPE_R: %Ld, TYPE_I: %Ld, TYPE_J: %Ld\n", mytyper, mytypei, mytypej);
+	printf("TYPE_R: %d, TYPE_I: %d, TYPE_J: %d\n", mytyper, mytypei, mytypej);
 	printf("EX: %d, MEM: %d\n", ex_hazards, mem_hazards);
 	printf("Stall: %d\n", stall);
 	printf("Branch: %d | Not Taken: %d | Always Taken: %d\n", branch_count, not_taken, always_taken);
@@ -327,6 +319,7 @@ void ac_behavior(end)
 	printf("Naive: %d\n", naive_count);
 	printf("\n---------- MINHAS SAIDAS ---------- \n\n");
 	cout << forward1A << " " << forward1B << " " << forward2A << " " << forward2B << endl;
+	cout << "Numero de stalls se nao houvesse forward: " << noFstalls << endl;
 }
 
 

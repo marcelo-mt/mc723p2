@@ -1,0 +1,338 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ACFILES	Makefile	/^ACFILES := $/;"	m
+ACFILESHEAD	Makefile	/^ACFILESHEAD := $(ACFILES:.cpp=.H) ac_decoder_rt.H ac_module.H ac_storage.H ac_utils.H ac_regbank.H ac_debug_model.H ac_sighandlers.H ac_ptr.H ac_memport.H ac_arch.H ac_arch_dec_if.H ac_arch_ref.H ac_syscall.H $/;"	m
+ACHEAD	Makefile	/^ACHEAD := $(MODULE)_parms.H $(MODULE)_arch.H $(MODULE)_arch_ref.H $(MODULE)_isa.H $(MODULE)_bhv_macros.H $(MODULE).H pipeline.h$/;"	m
+ACINCS	Makefile	/^ACINCS := $(MODULE)_isa_init.cpp$/;"	m
+ACLIBFILES	Makefile	/^ACLIBFILES := ac_decoder_rt.o ac_module.o ac_storage.o ac_utils.o ac_syscall.o $/;"	m
+ACSRCS	Makefile	/^ACSRCS := $(MODULE)_arch.cpp $(MODULE)_arch_ref.cpp $(MODULE).cpp pipeline.cpp$/;"	m
+AC_BEHAVIOR_Type_I	mips1_bhv_macros.H	14;"	d
+AC_BEHAVIOR_Type_J	mips1_bhv_macros.H	15;"	d
+AC_BEHAVIOR_Type_R	mips1_bhv_macros.H	13;"	d
+AC_BEHAVIOR_add	mips1_bhv_macros.H	37;"	d
+AC_BEHAVIOR_addi	mips1_bhv_macros.H	29;"	d
+AC_BEHAVIOR_addiu	mips1_bhv_macros.H	30;"	d
+AC_BEHAVIOR_addu	mips1_bhv_macros.H	38;"	d
+AC_BEHAVIOR_andi	mips1_bhv_macros.H	33;"	d
+AC_BEHAVIOR_begin	mips1_bhv_macros.H	10;"	d
+AC_BEHAVIOR_beq	mips1_bhv_macros.H	66;"	d
+AC_BEHAVIOR_bgez	mips1_bhv_macros.H	71;"	d
+AC_BEHAVIOR_bgezal	mips1_bhv_macros.H	73;"	d
+AC_BEHAVIOR_bgtz	mips1_bhv_macros.H	69;"	d
+AC_BEHAVIOR_blez	mips1_bhv_macros.H	68;"	d
+AC_BEHAVIOR_bltz	mips1_bhv_macros.H	70;"	d
+AC_BEHAVIOR_bltzal	mips1_bhv_macros.H	72;"	d
+AC_BEHAVIOR_bne	mips1_bhv_macros.H	67;"	d
+AC_BEHAVIOR_div	mips1_bhv_macros.H	56;"	d
+AC_BEHAVIOR_divu	mips1_bhv_macros.H	57;"	d
+AC_BEHAVIOR_end	mips1_bhv_macros.H	11;"	d
+AC_BEHAVIOR_instr_and	mips1_bhv_macros.H	43;"	d
+AC_BEHAVIOR_instr_break	mips1_bhv_macros.H	75;"	d
+AC_BEHAVIOR_instr_nor	mips1_bhv_macros.H	46;"	d
+AC_BEHAVIOR_instr_or	mips1_bhv_macros.H	44;"	d
+AC_BEHAVIOR_instr_xor	mips1_bhv_macros.H	45;"	d
+AC_BEHAVIOR_instruction	mips1_bhv_macros.H	8;"	d
+AC_BEHAVIOR_j	mips1_bhv_macros.H	62;"	d
+AC_BEHAVIOR_jal	mips1_bhv_macros.H	63;"	d
+AC_BEHAVIOR_jalr	mips1_bhv_macros.H	65;"	d
+AC_BEHAVIOR_jr	mips1_bhv_macros.H	64;"	d
+AC_BEHAVIOR_lb	mips1_bhv_macros.H	17;"	d
+AC_BEHAVIOR_lbu	mips1_bhv_macros.H	18;"	d
+AC_BEHAVIOR_lh	mips1_bhv_macros.H	19;"	d
+AC_BEHAVIOR_lhu	mips1_bhv_macros.H	20;"	d
+AC_BEHAVIOR_lui	mips1_bhv_macros.H	36;"	d
+AC_BEHAVIOR_lw	mips1_bhv_macros.H	21;"	d
+AC_BEHAVIOR_lwl	mips1_bhv_macros.H	22;"	d
+AC_BEHAVIOR_lwr	mips1_bhv_macros.H	23;"	d
+AC_BEHAVIOR_mfhi	mips1_bhv_macros.H	58;"	d
+AC_BEHAVIOR_mflo	mips1_bhv_macros.H	60;"	d
+AC_BEHAVIOR_mthi	mips1_bhv_macros.H	59;"	d
+AC_BEHAVIOR_mtlo	mips1_bhv_macros.H	61;"	d
+AC_BEHAVIOR_mult	mips1_bhv_macros.H	54;"	d
+AC_BEHAVIOR_multu	mips1_bhv_macros.H	55;"	d
+AC_BEHAVIOR_nop	mips1_bhv_macros.H	47;"	d
+AC_BEHAVIOR_ori	mips1_bhv_macros.H	34;"	d
+AC_BEHAVIOR_sb	mips1_bhv_macros.H	24;"	d
+AC_BEHAVIOR_sh	mips1_bhv_macros.H	25;"	d
+AC_BEHAVIOR_sll	mips1_bhv_macros.H	48;"	d
+AC_BEHAVIOR_sllv	mips1_bhv_macros.H	51;"	d
+AC_BEHAVIOR_slt	mips1_bhv_macros.H	41;"	d
+AC_BEHAVIOR_slti	mips1_bhv_macros.H	31;"	d
+AC_BEHAVIOR_sltiu	mips1_bhv_macros.H	32;"	d
+AC_BEHAVIOR_sltu	mips1_bhv_macros.H	42;"	d
+AC_BEHAVIOR_sra	mips1_bhv_macros.H	50;"	d
+AC_BEHAVIOR_srav	mips1_bhv_macros.H	53;"	d
+AC_BEHAVIOR_srl	mips1_bhv_macros.H	49;"	d
+AC_BEHAVIOR_srlv	mips1_bhv_macros.H	52;"	d
+AC_BEHAVIOR_sub	mips1_bhv_macros.H	39;"	d
+AC_BEHAVIOR_subu	mips1_bhv_macros.H	40;"	d
+AC_BEHAVIOR_sw	mips1_bhv_macros.H	26;"	d
+AC_BEHAVIOR_swl	mips1_bhv_macros.H	27;"	d
+AC_BEHAVIOR_swr	mips1_bhv_macros.H	28;"	d
+AC_BEHAVIOR_sys_call	mips1_bhv_macros.H	74;"	d
+AC_BEHAVIOR_xori	mips1_bhv_macros.H	35;"	d
+AC_DEC_FIELD_NUMBER	mips1_parms.H	/^static const unsigned int AC_DEC_FIELD_NUMBER = 13; 	 \/\/!< Number of Fields used by decoder.$/;"	m	namespace:mips1_parms
+AC_DEC_FORMAT_NUMBER	mips1_parms.H	/^static const unsigned int AC_DEC_FORMAT_NUMBER = 3; 	 \/\/!< Number of Formats declared.$/;"	m	namespace:mips1_parms
+AC_DEC_INSTR_NUMBER	mips1_parms.H	/^static const unsigned int AC_DEC_INSTR_NUMBER = 59; 	 \/\/!< Number of Instructions declared.$/;"	m	namespace:mips1_parms
+AC_DEC_LIST_NUMBER	mips1_parms.H	/^static const unsigned int AC_DEC_LIST_NUMBER = 96; 	 \/\/!< Number of decodification lists used by decoder.$/;"	m	namespace:mips1_parms
+AC_FETCHSIZE	mips1_parms.H	/^static const unsigned int AC_FETCHSIZE = 32; 	 \/\/!< Architecture fetchsize in bits.$/;"	m	namespace:mips1_parms
+AC_MATCH_ENDIAN	mips1_parms.H	/^static const unsigned int AC_MATCH_ENDIAN = 0; 	 \/\/!< If the simulated arch match the endian with host.$/;"	m	namespace:mips1_parms
+AC_MAX_BUFFER	mips1_parms.H	/^static const unsigned int AC_MAX_BUFFER = 4; 	 \/\/!< This is the size needed by decoder buffer. It is equal to the biggest instruction size.$/;"	m	namespace:mips1_parms
+AC_PROC_ENDIAN	mips1_parms.H	/^static const unsigned int AC_PROC_ENDIAN = 1; 	 \/\/!< The simulated arch is big endian?$/;"	m	namespace:mips1_parms
+AC_RAMSIZE	mips1_parms.H	/^static const unsigned int AC_RAMSIZE = 5242880U; 	 \/\/!< Architecture RAM size in bytes (storage DM).$/;"	m	namespace:mips1_parms
+AC_RAM_END	mips1_parms.H	/^static const unsigned int AC_RAM_END = 5242880U; 	 \/\/!< Architecture end of RAM (storage DM).$/;"	m	namespace:mips1_parms
+AC_SYSC	mips1.cpp	53;"	d	file:
+AC_SYSC	mips1.cpp	61;"	d	file:
+AC_WORDSIZE	mips1_parms.H	/^static const unsigned int AC_WORDSIZE = 32; 	 \/\/!< Architecture wordsize in bits.$/;"	m	namespace:mips1_parms
+ARCHC	Makefile	/^ARCHC := \/home\/staff\/rodolfo\/mc723\/archc\/bin$/;"	m
+CC	Makefile	/^CC :=   g++$/;"	m
+CFLAGS	Makefile	/^CFLAGS := $(DEBUG) $(OPT) $(OTHER) $/;"	m
+DEBUG	Makefile	/^DEBUG :=   -g$/;"	m
+DEC_CACHE	mips1.H	/^  cache_item_t* DEC_CACHE;$/;"	m	class:mips1
+DM	mips1_arch.H	/^  ac_memport<mips1_parms::ac_word, mips1_parms::ac_Hword> DM;$/;"	m	class:mips1_arch
+DM	mips1_arch_ref.H	/^  ac_memport<mips1_parms::ac_word, mips1_parms::ac_Hword>& DM;$/;"	m	class:mips1_arch_ref
+DM_stg	mips1_arch.H	/^  ac_storage DM_stg;$/;"	m	class:mips1_arch
+EXE	Makefile	/^EXE := $(MODULE).x$/;"	m
+EX_MEM	mips1_isa.cpp	/^	EX_MEM,$/;"	e	enum:estagios	file:
+FASES	mips1_isa.cpp	49;"	d	file:
+ID_EX	mips1_isa.cpp	/^	ID_EX,$/;"	e	enum:estagios	file:
+IF_ID	mips1_isa.cpp	/^	IF_ID,$/;"	e	enum:estagios	file:
+INC_DIR	Makefile	/^INC_DIR := -I. -I\/home\/staff\/rodolfo\/mc723\/archc\/include\/archc -I$(SYSTEMC)\/include $/;"	m
+ISA	mips1.H	/^  mips1_parms::mips1_isa ISA;$/;"	m	class:mips1
+LIBS	Makefile	/^LIBS := $(LIB_SYSTEMC) -lm $(EXTRA_LIBS) -larchc$/;"	m
+LIB_DIR	Makefile	/^LIB_DIR := -L. -L$(SYSTEMC)\/lib-$(TARGET_ARCH) -L\/home\/staff\/rodolfo\/mc723\/archc\/lib$/;"	m
+LIB_SYSTEMC	Makefile	/^LIB_SYSTEMC := -lsystemc$/;"	m
+MEM_WB	mips1_isa.cpp	/^	MEM_WB$/;"	e	enum:estagios	file:
+MIPS1_ARCH_H	mips1_arch.H	17;"	d
+MODULE	Makefile	/^MODULE := mips1$/;"	m
+NaiveFunc	mips1_isa.cpp	/^void NaiveFunc(bool branch_state){$/;"	f
+OBJS	Makefile	/^OBJS := $(SRCS:.cpp=.o)$/;"	m
+OPT	Makefile	/^OPT :=   -O3$/;"	m
+OTHER	Makefile	/^OTHER :=   -Wno-deprecated$/;"	m
+OneBitFunc	mips1_isa.cpp	/^void OneBitFunc(int imediato, bool branch_state){$/;"	f
+Onebit	mips1_isa.cpp	/^struct Onebit{$/;"	s	file:
+PrintStat	mips1.cpp	/^void mips1::PrintStat() {$/;"	f	class:mips1
+RB	mips1_arch.H	/^  ac_regbank<32, mips1_parms::ac_word, mips1_parms::ac_Dword> RB;$/;"	m	class:mips1_arch
+RB	mips1_arch_ref.H	/^  ac_regbank<32, mips1_parms::ac_word, mips1_parms::ac_Dword>& RB;$/;"	m	class:mips1_arch_ref
+Ra	mips1_isa.cpp	52;"	d	file:
+SRCS	Makefile	/^SRCS := main.cpp $(ACSRCS) $(ACFILES)  $(MODULE)_syscall.cpp$/;"	m
+ST0	mips1_parms.H	/^enum ac_stage_list {ST0};$/;"	e	enum:mips1_parms::ac_stage_list
+SYSTEMC	Makefile	/^SYSTEMC :=  \/home\/staff\/rodolfo\/mc723\/systemc$/;"	m
+Sp	mips1_isa.cpp	53;"	d	file:
+TARGET_ARCH	Makefile	/^TARGET_ARCH :=  linux64$/;"	m
+_MIPS1_ARCH_REF_H	mips1_arch_ref.H	17;"	d
+_MIPS1_BHV_MACROS_H	mips1_bhv_macros.H	2;"	d
+_MIPS1_H	mips1.H	17;"	d
+_MIPS1_ISA_H	mips1_isa.H	17;"	d
+_MIPS1_PARMS_H	mips1_parms.H	17;"	d
+ac_Dword	mips1_parms.H	/^typedef  unsigned long long ac_Dword; 	 \/\/!< Signed double word.$/;"	t	namespace:mips1_parms
+ac_Hword	mips1_parms.H	/^typedef  unsigned short int  ac_Hword; 	 \/\/!< Unsigned half word.$/;"	t	namespace:mips1_parms
+ac_SDword	mips1_parms.H	/^typedef  long long ac_SDword; 	 \/\/!< Signed double word.$/;"	t	namespace:mips1_parms
+ac_SHword	mips1_parms.H	/^typedef  short int ac_SHword; 	 \/\/!< Signed half word.$/;"	t	namespace:mips1_parms
+ac_Sword	mips1_parms.H	/^typedef  int ac_Sword; 	 \/\/!< Signed word.$/;"	t	namespace:mips1_parms
+ac_UDword	mips1_parms.H	/^typedef  unsigned long long ac_UDword; 	 \/\/!< Unsigned double word.$/;"	t	namespace:mips1_parms
+ac_UHword	mips1_parms.H	/^typedef  unsigned short int  ac_UHword; 	 \/\/!< Unsigned half word.$/;"	t	namespace:mips1_parms
+ac_Ubyte	mips1_parms.H	/^typedef  unsigned char ac_Ubyte; 	 \/\/!< Unsigned byte word.$/;"	t	namespace:mips1_parms
+ac_Uword	mips1_parms.H	/^typedef  unsigned int ac_Uword; 	 \/\/!< Unsigned word.$/;"	t	namespace:mips1_parms
+ac_behavior	mips1_bhv_macros.H	6;"	d
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( Type_I ){ $/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( Type_J ){ $/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( Type_R ){ $/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( add )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( addi )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( addiu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( addu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( andi )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( beq )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( bgez )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( bgezal )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( bgtz )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( blez )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( bltz )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( bltzal )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( bne )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( div )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( divu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( instr_and )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( instr_break )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( instr_nor )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( instr_or )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( instr_xor )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( instruction )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( j )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( jal )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( jalr )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( jr )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lb )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lbu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lh )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lhu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lui )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lw )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lwl )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( lwr )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( mfhi )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( mflo )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( mthi )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( mtlo )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( mult )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( multu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( nop )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( ori )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sb )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sh )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sll )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sllv )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( slt )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( slti )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sltiu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sltu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sra )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( srav )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( srl )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( srlv )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sub )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( subu )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sw )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( swl )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( swr )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( sys_call )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior( xori )$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior(begin)$/;"	f
+ac_behavior	mips1_isa.cpp	/^void ac_behavior(end)$/;"	f
+ac_byte	mips1_parms.H	/^typedef  char ac_byte; 	 \/\/!< Signed byte word.$/;"	t	namespace:mips1_parms
+ac_fetch	mips1_parms.H	/^typedef  unsigned int ac_fetch; 	 \/\/!< Unsigned word.$/;"	t	namespace:mips1_parms
+ac_instr_t	mips1.H	/^  typedef ac_instr<mips1_parms::AC_DEC_FIELD_NUMBER> ac_instr_t;$/;"	t	class:mips1
+ac_instr_t	mips1_isa.H	/^typedef ac_instr<AC_DEC_FIELD_NUMBER> ac_instr_t;$/;"	t	class:mips1_parms::mips1_isa
+ac_memory	mips1_bhv_macros.H	/^typedef ac_memport<mips1_parms::ac_word, mips1_parms::ac_Hword> ac_memory;$/;"	t
+ac_pc	mips1_arch.H	/^  ac_reg<unsigned> ac_pc;$/;"	m	class:mips1_arch
+ac_pc	mips1_arch_ref.H	/^  ac_reg<unsigned>& ac_pc;$/;"	m	class:mips1_arch_ref
+ac_stage_list	mips1_parms.H	/^enum ac_stage_list {ST0};$/;"	g	namespace:mips1_parms
+ac_word	mips1_parms.H	/^typedef  unsigned int ac_word; 	 \/\/!< Unsigned word.$/;"	t	namespace:mips1_parms
+addr	pipeline.h	/^		int addr;$/;"	m	class:fase
+always_taken	mips1_isa.cpp	/^int always_taken = 0;$/;"	v
+archc_options	main.cpp	/^const char *archc_options="-abi ";$/;"	v
+archc_version	main.cpp	/^const char *archc_version="2.2";$/;"	v
+aux_mem	mips1_isa.cpp	/^bool aux_mem = false;$/;"	v
+behavior	mips1.cpp	/^void mips1::behavior() {$/;"	f	class:mips1
+bhv_pc	mips1.H	/^  unsigned bhv_pc;$/;"	m	class:mips1
+branch_count	mips1_isa.cpp	/^int branch_count = 0;$/;"	v
+branch_state_aux	mips1_isa.cpp	/^bool branch_state_aux;$/;"	v
+cache_item_t	mips1.H	/^  typedef cache_item<mips1_parms::AC_DEC_FIELD_NUMBER> cache_item_t;$/;"	t	class:mips1
+cur_instr_id	mips1_isa.H	/^  int cur_instr_id;$/;"	m	class:mips1_parms::mips1_isa
+dec_list	mips1_isa.H	/^  static ac_dec_list dec_list[AC_DEC_LIST_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
+dec_list	mips1_isa_init.cpp	/^ac_dec_list mips1_parms::mips1_isa::dec_list[mips1_parms::AC_DEC_LIST_NUMBER] = {$/;"	m	class:mips1_parms::mips1_isa	file:
+decoder	mips1_isa.H	/^  ac_decoder_full* decoder;$/;"	m	class:mips1_parms::mips1_isa
+delay	mips1_parms.H	60;"	d
+delayed_load	mips1.cpp	/^void mips1::delayed_load(char* program) {$/;"	f	class:mips1
+delayed_load_program	mips1.H	/^  char* delayed_load_program;$/;"	m	class:mips1
+endereco	mips1_isa.cpp	/^	long int endereco;$/;"	m	struct:Onebit	file:
+estagios	mips1_isa.cpp	/^enum estagios$/;"	g	file:
+ex_hazards	mips1_isa.cpp	/^int ex_hazards = 0;$/;"	v
+exmem_rd	mips1_isa.cpp	/^unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;$/;"	v
+exmem_rs	mips1_isa.cpp	/^unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;$/;"	v
+exmem_rt	mips1_isa.cpp	/^unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;$/;"	v
+fase	pipeline.cpp	/^fase::fase () {$/;"	f	class:fase
+fase	pipeline.cpp	/^fase::fase (int op) {$/;"	f	class:fase
+fase	pipeline.h	/^class fase {$/;"	c
+fib	fib.c	/^int fib (int n) {$/;"	f
+fields	mips1_isa.H	/^  static ac_dec_field fields[AC_DEC_FIELD_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
+fields	mips1_isa_init.cpp	/^ac_dec_field mips1_parms::mips1_isa::fields[mips1_parms::AC_DEC_FIELD_NUMBER] = {$/;"	m	class:mips1_parms::mips1_isa	file:
+formats	mips1_isa.H	/^  static ac_dec_format formats[AC_DEC_FORMAT_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
+formats	mips1_isa_init.cpp	/^ac_dec_format mips1_parms::mips1_isa::formats[mips1_parms::AC_DEC_FORMAT_NUMBER] = {$/;"	m	class:mips1_parms::mips1_isa	file:
+forward1A	mips1_isa.cpp	/^int forward1A = 0;$/;"	v
+forward1B	mips1_isa.cpp	/^int forward1B = 0;$/;"	v
+forward2A	mips1_isa.cpp	/^int forward2A = 0;$/;"	v
+forward2B	mips1_isa.cpp	/^int forward2B = 0;$/;"	v
+get_ac_pc	mips1.cpp	/^unsigned mips1::get_ac_pc() {$/;"	f	class:mips1
+get_buffer	mips1_syscall.cpp	/^void mips1_syscall::get_buffer(int argn, unsigned char* buf, unsigned int size)$/;"	f	class:mips1_syscall
+get_cycles	mips1_isa.H	/^  inline unsigned get_cycles() { return instr_table[cur_instr_id].ac_instr_cycles; };$/;"	f	class:mips1_parms::mips1_isa
+get_int	mips1_syscall.cpp	/^int mips1_syscall::get_int(int argn)$/;"	f	class:mips1_syscall
+get_max_latency	mips1_isa.H	/^  inline unsigned get_max_latency() { return instr_table[cur_instr_id].ac_instr_max_latency; };$/;"	f	class:mips1_parms::mips1_isa
+get_min_latency	mips1_isa.H	/^  inline unsigned get_min_latency() { return instr_table[cur_instr_id].ac_instr_min_latency; };$/;"	f	class:mips1_parms::mips1_isa
+get_mnemonic	mips1_isa.H	/^  inline const char* get_mnemonic() { return instr_table[cur_instr_id].ac_instr_mnemonic; }$/;"	f	class:mips1_parms::mips1_isa
+get_name	mips1_isa.H	/^  inline const char* get_name() { return instr_table[cur_instr_id].ac_instr_name; }$/;"	f	class:mips1_parms::mips1_isa
+get_size	mips1_isa.H	/^  inline unsigned get_size() { return instr_table[cur_instr_id].ac_instr_size; };$/;"	f	class:mips1_parms::mips1_isa
+has_delayed_load	mips1.H	/^  bool has_delayed_load;$/;"	m	class:mips1
+hi	mips1_arch.H	/^  ac_reg<mips1_parms::ac_word> hi;$/;"	m	class:mips1_arch
+hi	mips1_arch_ref.H	/^  ac_reg<mips1_parms::ac_word>& hi;$/;"	m	class:mips1_arch_ref
+id	mips1.H	/^  unsigned id;$/;"	m	class:mips1
+imm	pipeline.h	/^		int imm;$/;"	m	class:fase
+init	mips1.cpp	/^void mips1::init() {$/;"	f	class:mips1
+init	mips1.cpp	/^void mips1::init(int ac, char *av[]) {$/;"	f	class:mips1
+init	pipeline.h	/^		bool init;$/;"	m	class:fase
+init_dec_cache	mips1.H	/^  void init_dec_cache() {$/;"	f	class:mips1
+inst	pipeline.h	/^		int inst;$/;"	m	class:fase
+instr_dec	mips1.H	/^  unsigned* instr_dec;$/;"	m	class:mips1
+instr_table	mips1_isa.H	/^  static const ac_instr_info instr_table[AC_DEC_INSTR_NUMBER + 1];$/;"	m	class:mips1_parms::mips1_isa
+instr_table	mips1_isa_init.cpp	/^mips1_parms::mips1_isa::instr_table[mips1_parms::AC_DEC_INSTR_NUMBER + 1] = {$/;"	m	class:mips1_parms::mips1_isa	file:
+instr_vec	mips1.H	/^  ac_instr_t* instr_vec;$/;"	m	class:mips1
+instructions	mips1_isa.H	/^  static ac_dec_instr instructions[AC_DEC_INSTR_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
+instructions	mips1_isa_init.cpp	/^ac_dec_instr mips1_parms::mips1_isa::instructions[mips1_parms::AC_DEC_INSTR_NUMBER] = {$/;"	m	class:mips1_parms::mips1_isa	file:
+lo	mips1_arch.H	/^  ac_reg<mips1_parms::ac_word> lo;$/;"	m	class:mips1_arch
+lo	mips1_arch_ref.H	/^  ac_reg<mips1_parms::ac_word>& lo;$/;"	m	class:mips1_arch_ref
+load	mips1.cpp	/^void mips1::load(char* program) {$/;"	f	class:mips1
+load	mips1_isa.cpp	/^bool load = false;$/;"	v
+main	fib.c	/^int main () {$/;"	f
+main	hello.c	/^int main(){$/;"	f
+memRead	pipeline.h	/^		bool memRead;$/;"	m	class:fase
+mem_hazards	mips1_isa.cpp	/^int mem_hazards = 0;$/;"	v
+mem_read	mips1_gdb_funcs.cpp	/^unsigned char mips1::mem_read( unsigned int address ) {$/;"	f	class:mips1
+mem_write	mips1_gdb_funcs.cpp	/^void mips1::mem_write( unsigned int address, unsigned char byte ) {$/;"	f	class:mips1
+memwb_rd	mips1_isa.cpp	/^unsigned int memwb_rd = 1000, memwb_rs = 1000, memwb_rt = 1000;$/;"	v
+memwb_rs	mips1_isa.cpp	/^unsigned int memwb_rd = 1000, memwb_rs = 1000, memwb_rt = 1000;$/;"	v
+memwb_rt	mips1_isa.cpp	/^unsigned int memwb_rd = 1000, memwb_rs = 1000, memwb_rt = 1000;$/;"	v
+mips1	mips1.H	/^  mips1( sc_module_name name_ ): ac_module(name_), mips1_arch(), ISA(*this) {$/;"	f	class:mips1
+mips1	mips1.H	/^class mips1: public ac_module, public mips1_arch {$/;"	c
+mips1_SYSCALL_H	mips1_syscall.H	17;"	d
+mips1_arch	mips1_arch.H	/^class mips1_arch : public ac_arch_dec_if<mips1_parms::ac_word, mips1_parms::ac_Hword> {$/;"	c
+mips1_arch	mips1_arch.cpp	/^mips1_arch::mips1_arch() :$/;"	f	class:mips1_arch
+mips1_arch_ref	mips1_arch_ref.H	/^class mips1_arch_ref : public ac_arch_ref<mips1_parms::ac_word, mips1_parms::ac_Hword> {$/;"	c
+mips1_arch_ref	mips1_arch_ref.cpp	/^mips1_arch_ref::mips1_arch_ref(mips1_arch& arch) : ac_arch_ref<mips1_parms::ac_word, mips1_parms::ac_Hword>(arch),$/;"	f	class:mips1_arch_ref
+mips1_isa	mips1_isa.H	/^  mips1_isa(mips1_arch& ref) : mips1_arch_ref(ref) , syscall(ref) {$/;"	f	class:mips1_parms::mips1_isa
+mips1_isa	mips1_isa.H	/^class mips1_isa: public mips1_arch_ref {$/;"	c	namespace:mips1_parms
+mips1_parms	mips1_isa.H	/^namespace mips1_parms$/;"	n
+mips1_parms	mips1_parms.H	/^namespace mips1_parms {$/;"	n
+mips1_syscall	mips1_syscall.H	/^  mips1_syscall(mips1_arch& ref) : ac_syscall<mips1_parms::ac_word, mips1_parms::ac_Hword>(ref, mips1_parms::AC_RAMSIZE), mips1_arch_ref(ref) {};$/;"	f	class:mips1_syscall
+mips1_syscall	mips1_syscall.H	/^class mips1_syscall : public ac_syscall<mips1_parms::ac_word, mips1_parms::ac_Hword>, public mips1_arch_ref$/;"	c
+mytypei	mips1_isa.cpp	/^int mytypei = 0;$/;"	v
+mytypej	mips1_isa.cpp	/^int mytypej = 0;$/;"	v
+mytyper	mips1_isa.cpp	/^int mytyper = 0;$/;"	v
+nRegs	mips1_gdb_funcs.cpp	/^int mips1::nRegs(void) {$/;"	f	class:mips1
+nadds	mips1_isa.cpp	/^int nadds = 0;$/;"	v
+naive	mips1_isa.cpp	/^bool naive = false;$/;"	v
+naive_count	mips1_isa.cpp	/^int naive_count = 0;$/;"	v
+noFstalls	mips1_isa.cpp	/^int noFstalls = 0;	\/\/ Numero Stalls na ausencia de forwards$/;"	v
+not_taken	mips1_isa.cpp	/^int not_taken = 0;$/;"	v
+npc	mips1_arch.H	/^  ac_reg<mips1_parms::ac_word> npc;$/;"	m	class:mips1_arch
+npc	mips1_arch_ref.H	/^  ac_reg<mips1_parms::ac_word>& npc;$/;"	m	class:mips1_arch_ref
+one_bit_count	mips1_isa.cpp	/^int one_bit_count = 0;$/;"	v
+one_bit_preditor	mips1_isa.cpp	/^Onebit one_bit_preditor[10000000];$/;"	v
+project_file	main.cpp	/^const char *project_file="mips1.ac";$/;"	v
+project_name	main.cpp	/^const char *project_name="mips1";$/;"	v
+rd	pipeline.h	/^		int rs, rt, rd;$/;"	m	class:fase
+regWrite	pipeline.h	/^		bool regWrite;$/;"	m	class:fase
+reg_read	mips1_gdb_funcs.cpp	/^ac_word mips1::reg_read( int reg ) {$/;"	f	class:mips1
+reg_write	mips1_gdb_funcs.cpp	/^void mips1::reg_write( int reg, ac_word value ) {$/;"	f	class:mips1
+reg_write	mips1_isa.cpp	/^bool reg_write = false;$/;"	v
+return_from_syscall	mips1_syscall.cpp	/^void mips1_syscall::return_from_syscall()$/;"	f	class:mips1_syscall
+rs	pipeline.h	/^		int rs, rt, rd;$/;"	m	class:fase
+rt	pipeline.h	/^		int rs, rt, rd;$/;"	m	class:fase
+sc_main	main.cpp	/^int sc_main(int ac, char *av[])$/;"	f
+set_ac_pc	mips1.cpp	/^void mips1::set_ac_pc(unsigned int value) {$/;"	f	class:mips1
+set_buffer	mips1_syscall.cpp	/^void mips1_syscall::set_buffer(int argn, unsigned char* buf, unsigned int size)$/;"	f	class:mips1_syscall
+set_buffer_noinvert	mips1_syscall.cpp	/^void mips1_syscall::set_buffer_noinvert(int argn, unsigned char* buf, unsigned int size)$/;"	f	class:mips1_syscall
+set_int	mips1_syscall.cpp	/^void mips1_syscall::set_int(int argn, int val)$/;"	f	class:mips1_syscall
+set_prog_args	mips1_syscall.cpp	/^void mips1_syscall::set_prog_args(int argc, char **argv)$/;"	f	class:mips1_syscall
+stall	mips1_isa.cpp	/^int stall = 0;$/;"	v
+start_up	mips1.H	/^  bool start_up;$/;"	m	class:mips1
+state	mips1_isa.cpp	/^	bool state;$/;"	m	struct:Onebit	file:
+stop	mips1.cpp	/^void mips1::stop(int status) {$/;"	f	class:mips1
+syscall	mips1_isa.H	/^  mips1_syscall syscall;$/;"	m	class:mips1_parms::mips1_isa
+~mips1	mips1.H	/^  virtual ~mips1() {};$/;"	f	class:mips1
+~mips1_arch	mips1_arch.H	/^  virtual ~mips1_arch() {};$/;"	f	class:mips1_arch
+~mips1_syscall	mips1_syscall.H	/^  virtual ~mips1_syscall() {};$/;"	f	class:mips1_syscall
