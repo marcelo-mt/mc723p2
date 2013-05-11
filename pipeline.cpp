@@ -9,8 +9,9 @@ fase::fase () {
 }
 
 // Construtor com instrucao
-fase::fase (int op) {
+fase::fase (int op, int ac_pc) {
 	this->inst = op;
+	this->acpc = ac_pc;
 	this->branch = false;
 	
 	// Instrucoes de load
@@ -21,11 +22,11 @@ fase::fase (int op) {
 		this->memRead = true;
 //		cout << "regWrite e memRead!" << endl;
 	}
-
+	//
 	// Instrucoes de store
 	if (op >= 8 && op <= 12) {
-		this->memRead = true;
-//		cout << "memRead!" << endl;
+//		this->memRead = true;
+//		cout << "memWrite!" << endl;
 	}
 
 	// Instrucoes de aritmetica e logica
@@ -37,21 +38,13 @@ fase::fase (int op) {
 //		cout << "memRead!" << endl;
 	}
 
-	// Instrucoes de store
-	if (op >= 8 && op <= 12) {
-		this->memRead = true;
-//		cout << "memWrite!" << endl;
-	}
 
 	// Instrucoes de branch
-	if ( (op >= 50 && op <= 57) ||		// Branch
-		(op >= 46 && op <= 49)		// Jump
+	if ( (op >= 50 && op <= 57) 		// Branch
+//		|| (op >= 46 && op <= 49)		// Jump
 	   ) {
 		this->branch = true;
-		cout << "BRANCH!!!" << endl;
-	}
-	if (op>50) {
-		cout << op << endl;
+//		cout << "BRANCH!!!" << endl;
 	}
 }
 
