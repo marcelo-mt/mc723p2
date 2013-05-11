@@ -938,11 +938,7 @@ void ac_behavior( beq )
 		not_taken++;
 		branch_state_aux = true;
 	}	else always_taken++;
-<<<<<<< HEAD
 	cout << "BEQ: ac_pc: " << ac_pc << " npc " << npc << " imm: " << imm << endl << endl;
-=======
-	cout << "npc BEQ: " << npc << " ac_pc: " << ac_pc << " imm: " << imm << endl << endl;
->>>>>>> 92d9a46e3daf8985714dada3d8d0e9c15d3e89b7
 	OneBitFunc(imm, branch_state_aux);
 	NaiveFunc(branch_state_aux);
 };
