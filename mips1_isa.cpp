@@ -132,8 +132,6 @@ void verificaStalls () {
 //!Generic instruction behavior method.
 void ac_behavior( instruction )
 {
-	dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
-
 	verificaStalls();
 
 	// Se a fase existir realmente
@@ -141,13 +139,6 @@ void ac_behavior( instruction )
 	// Se o pipeline foi devidamente preenchido
 	// Ou seja o ultimo estagio esta' iniciado
 
-	if (pipeline[IF_ID].branch) {
-		cout << endl << "ACPC: " << ac_pc << " NPC: " << npc << endl;
-	}
-	
-	//  dbg_printf("----- PC=%#x NPC=%#x ----- %lld\n", (int) ac_pc, (int)npc, ac_instr_counter);
-	//
-	//
 	//  Fazendo o pipeline rodar
 	pipeline.pop_back(); 		// Fim da fase WB
 	fase f(op,npc);		// Nova fase e Armazenando instrucao
@@ -166,6 +157,12 @@ void ac_behavior( instruction )
 		}
 	}
 
+	if (pipeline[ID_EX].branch) {
+		TwoBBP.predict(acpp, npc)
+		cout << endl << "ACPC: " << ac_pc << " NPC: " << npc << endl;
+	}
+	
+	
 	
 	// BRANCH PREDICTOR
 #ifndef NO_NEED_PC_UPDATE
