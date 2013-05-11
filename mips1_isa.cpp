@@ -363,6 +363,13 @@ void ac_behavior(end)
 	// do pipeline
 	cout << "Numero de stalls se nao houvesse forward: " << noFstalls+withFstalls << endl;
 	cout << "Numero de stalls com forward: " << withFstalls << endl;
+
+	cout << "Total Branches: " << tbp.branchesTaken + TBP.branchesNotTaken << endl;
+	cout << "  Taken: " << TBP.branchesTaken << endl;
+	cout << "  Not Taken: " << TBP.branchesNotTaken << endl;
+	cout << "  Correct Predictions: " << TBP.correctPredictions << endl;
+	cout << "  Miss Predictions: " << TBP.missPredictions << endl;
+
 }
 
 
