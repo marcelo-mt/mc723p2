@@ -163,7 +163,7 @@ void ac_behavior( instruction )
 	*/
 
 	if (pipeline[ID_EX].branch) {
-		TBP.predict(ac_pp, npc)
+		TBP.predict(ac_pc, npc);
 		//cout << endl << "ACPC: " << ac_pc << " NPC: " << npc << endl;
 	}
 	
