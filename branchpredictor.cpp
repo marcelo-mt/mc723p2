@@ -15,7 +15,7 @@
 	branchpredictor.cpp
 */
 
-#include "branchpredictor.h"
+#include <branchpredictor.h>
 
 TwoBitPredictor::TwoBitPredictor ()
 {
