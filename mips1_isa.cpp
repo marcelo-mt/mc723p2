@@ -46,6 +46,8 @@
 // Container de C++
 #include <vector>
 #include <pipeline.h>
+#include <branchpredictor.h>
+#include <cache.h>
 #define FASES 5
 
 //!User defined macros to reference registers.
@@ -77,6 +79,9 @@ int forward2A = 0;
 int forward2B = 0;
 int withFstalls = 0;
 int noFstalls = 0;	// Numero Stalls na ausencia de forwards
+
+// Cache -> size, bits por bloco, quantas palavras por bloco, num de ways'
+cache c(32,12);
 
 vector < fase > pipeline (FASES-1);
 // Exemplo: pipeline de 5 estagios
@@ -124,9 +129,15 @@ void verificaStalls () {
 			((pipeline[ID_EX].rt == pipeline[IF_ID].rs) ||
 			 (pipeline[ID_EX].rt == pipeline[IF_ID].rt)) )
 		{
-			withFstalls++;
+			withFstalls++;			// Hazard
 		}
 	} // if externo
+}
+
+void caching () {
+	if(pipeline[MEM_WB].mem) {
+		c.access(pipeline[MEM_WB].memAddr);
+	}
 }
 
 //!Generic instruction behavior method.
@@ -136,15 +147,25 @@ void ac_behavior( instruction )
 
 	verificaStalls();
 
+	caching();
+
+	/*
+	if (pipeline[IF_ID].branch) {
+		cout << endl << "acpc: " << ac_pc << " npc: " << npc << endl;
+		if (pipeline[IF_ID].acpc == ac_pc) {
+			cout << "Branch not taken " << ac_pc << " " << pipeline[IF_ID].acpc << endl;
+		}
+		else {
+			cout << "Branch taken" << endl;
+		}
+	}
+	*/
+
 	// Se a fase existir realmente
 	// Ou seja nao for a inicial
 	// Se o pipeline foi devidamente preenchido
 	// Ou seja o ultimo estagio esta' iniciado
 
-	if (pipeline[IF_ID].branch) {
-		cout << endl << "ACPC: " << ac_pc << " NPC: " << npc << endl;
-	}
-	
 	//  dbg_printf("----- PC=%#x NPC=%#x ----- %lld\n", (int) ac_pc, (int)npc, ac_instr_counter);
 	//
 	//
@@ -156,28 +177,12 @@ void ac_behavior( instruction )
 	//	pipeline.push_front(f);
 	pipeline.insert(pipeline.begin(),f);	// Nova fase no pipeline
 
-	if (pipeline[IF_ID].branch) {
-		cout << endl << "acpc: " << ac_pc << " npc: " << npc << endl;
-		if (pipeline[IF_ID].acpc == ac_pc) {
-			cout << "Branch not taken " << ac_pc << " " << pipeline[IF_ID].acpc << endl;
-		}
-		else {
-			cout << "Branch taken "  << ac_pc << " " << pipeline[IF_ID].acpc << endl;
-		}
-	}
-
-	
 	// BRANCH PREDICTOR
 #ifndef NO_NEED_PC_UPDATE
 	ac_pc = npc;
 	npc = ac_pc + 4;
 #endif 
 
-
-	if (op==50) {
-		cout << "acpc Geral: " << ac_pc << " | " << "npc Geral: " << npc << endl;
-		cout << "second" << endl;
-	}
 };
 
 int mytyper = 0;
@@ -241,6 +246,7 @@ void ac_behavior( Type_R ){
 	pipeline[IF_ID].rd = rd;
 	pipeline[IF_ID].rs = rs;
 	pipeline[IF_ID].rt = rt;
+	pipeline[IF_ID].memAddr = RB[rs];
 	mytyper++;
 
 
@@ -316,6 +322,7 @@ void ac_behavior( Type_I ){
 void ac_behavior( Type_J ){ 
 	// Registradores descobertos na fase IF->ID
 	pipeline[IF_ID].addr = addr;
+	pipeline[IF_ID].memAddr = addr;
 	mytypej++;
 
 	memwb_rd = exmem_rd;
@@ -359,8 +366,12 @@ void ac_behavior(end)
 	printf("Naive: %d\n", naive_count);
 	printf("\n---------- MINHAS SAIDAS ---------- \n\n");
 	cout << forward1A << " " << forward1B << " " << forward2A << " " << forward2B << endl;
-	cout << "Numero de stalls se nao houvesse forward: " << noFstalls << endl;
+
+	// Soma de stalls de com e sem forward. Totalizando os stalls
+	// do pipeline
+	cout << "Numero de stalls se nao houvesse forward: " << noFstalls+withFstalls << endl;
 	cout << "Numero de stalls com forward: " << withFstalls << endl;
+	cout << "Misses " << c.misses << " Hits: " << c.hits << endl;
 }
 
 
@@ -409,6 +420,8 @@ void ac_behavior( lhu )
 	dbg_printf("Result = %#x\n", RB[rt]);
 	reg_write = true;
 	load = true;
+	printf("\n Addr rt: %#x %d\n", rt, rt, rt);
+	printf("\n RB[rs]: %#X %d\n", RB[rs], RB[rs]);
 };
 
 //!Instruction lw behavior method.
@@ -416,6 +429,10 @@ void ac_behavior( lw )
 {
 	dbg_printf("lw r%d, %d(r%d)\n", rt, imm & 0xFFFF, rs);
 	RB[rt] = DM.read(RB[rs]+ imm);
+	/*
+	printf("\n Addr rt: %#x %d\n", rt, rt, rt);
+	printf("\n RB[rs]: %#X %d\n", RB[rs], RB[rs]);
+	*/
 	dbg_printf("Result = %#x\n", RB[rt]);
 	reg_write = true;
 	load = true;
@@ -843,7 +860,7 @@ void ac_behavior( mthi )
 {
 	dbg_printf("mthi r%d\n", rs);
 	hi = RB[rs];
-	dbg_printf("Result = %#x\n", hi);
+	//dbg_printf("Result = %#x\n", hi);
 };
 
 //!Instruction mflo behavior method.
@@ -859,7 +876,7 @@ void ac_behavior( mtlo )
 {
 	dbg_printf("mtlo r%d\n", rs);
 	lo = RB[rs];
-	dbg_printf("Result = %#x\n", lo);
+	//dbg_printf("Result = %#x\n", lo);
 };
 
 //!Instruction j behavior method.
@@ -924,7 +941,6 @@ void ac_behavior( jalr )
 //!Instruction beq behavior method.
 void ac_behavior( beq )
 {
-	cout << "first" << op << endl;
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("beq r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);
@@ -936,7 +952,7 @@ void ac_behavior( beq )
 		not_taken++;
 		branch_state_aux = true;
 	}	else always_taken++;
-	cout << "BEQ: ac_pc: " << ac_pc << " npc " << npc << " imm: " << imm << endl << endl;
+	//cout << "npc BEQ: " << npc << " ac_pc: " << ac_pc << " imm: " << imm << endl << endl;
 	OneBitFunc(imm, branch_state_aux);
 	NaiveFunc(branch_state_aux);
 };
