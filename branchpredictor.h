@@ -17,6 +17,8 @@
 
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
+#include <stdio.h>
 
 #define STRONG_N_TAKEN		0
 #define WEAK_N_TAKEN		1

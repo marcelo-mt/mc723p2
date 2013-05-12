@@ -1,4 +1,5 @@
 #include <iostream>
+#include <set>
 
 using namespace std;
 
@@ -12,6 +13,8 @@ class fase {
 		bool regWrite;
 		bool memRead;
 		bool branch;
+		bool half;
+		bool mem; 		// Para a cache
 		int inst;
 		int rs, rt, rd;
 		int imm;
