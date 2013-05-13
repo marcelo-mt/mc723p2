@@ -9,7 +9,7 @@ ACFILESHEAD	Makefile	/^ACFILESHEAD := $(ACFILES:.cpp=.H) ac_decoder_rt.H ac_modu
 ACHEAD	Makefile	/^ACHEAD := $(MODULE)_parms.H $(MODULE)_arch.H $(MODULE)_arch_ref.H $(MODULE)_isa.H $(MODULE)_bhv_macros.H $(MODULE).H pipeline.h$/;"	m
 ACINCS	Makefile	/^ACINCS := $(MODULE)_isa_init.cpp$/;"	m
 ACLIBFILES	Makefile	/^ACLIBFILES := ac_decoder_rt.o ac_module.o ac_storage.o ac_utils.o ac_syscall.o $/;"	m
-ACSRCS	Makefile	/^ACSRCS := $(MODULE)_arch.cpp $(MODULE)_arch_ref.cpp $(MODULE).cpp pipeline.cpp$/;"	m
+ACSRCS	Makefile	/^ACSRCS := $(MODULE)_arch.cpp $(MODULE)_arch_ref.cpp  $(MODULE).cpp pipeline.cpp cache.cpp branchpredictor.cpp$/;"	m
 AC_BEHAVIOR_Type_I	mips1_bhv_macros.H	14;"	d
 AC_BEHAVIOR_Type_J	mips1_bhv_macros.H	15;"	d
 AC_BEHAVIOR_Type_R	mips1_bhv_macros.H	13;"	d
@@ -89,6 +89,7 @@ AC_SYSC	mips1.cpp	53;"	d	file:
 AC_SYSC	mips1.cpp	61;"	d	file:
 AC_WORDSIZE	mips1_parms.H	/^static const unsigned int AC_WORDSIZE = 32; 	 \/\/!< Architecture wordsize in bits.$/;"	m	namespace:mips1_parms
 ARCHC	Makefile	/^ARCHC := \/home\/staff\/rodolfo\/mc723\/archc\/bin$/;"	m
+BPB	branchpredictor.h	/^} BPB;$/;"	t	typeref:struct:_branchPredictionBuffer
 CC	Makefile	/^CC :=   g++$/;"	m
 CFLAGS	Makefile	/^CFLAGS := $(DEBUG) $(OPT) $(OTHER) $/;"	m
 DEBUG	Makefile	/^DEBUG :=   -g$/;"	m
@@ -98,7 +99,8 @@ DM	mips1_arch_ref.H	/^  ac_memport<mips1_parms::ac_word, mips1_parms::ac_Hword>&
 DM_stg	mips1_arch.H	/^  ac_storage DM_stg;$/;"	m	class:mips1_arch
 EXE	Makefile	/^EXE := $(MODULE).x$/;"	m
 EX_MEM	mips1_isa.cpp	/^	EX_MEM,$/;"	e	enum:estagios	file:
-FASES	mips1_isa.cpp	49;"	d	file:
+FASES	mips1_isa.cpp	51;"	d	file:
+FIRST_PREDICTION	branchpredictor.h	27;"	d
 ID_EX	mips1_isa.cpp	/^	ID_EX,$/;"	e	enum:estagios	file:
 IF_ID	mips1_isa.cpp	/^	IF_ID,$/;"	e	enum:estagios	file:
 INC_DIR	Makefile	/^INC_DIR := -I. -I\/home\/staff\/rodolfo\/mc723\/archc\/include\/archc -I$(SYSTEMC)\/include $/;"	m
@@ -118,17 +120,25 @@ Onebit	mips1_isa.cpp	/^struct Onebit{$/;"	s	file:
 PrintStat	mips1.cpp	/^void mips1::PrintStat() {$/;"	f	class:mips1
 RB	mips1_arch.H	/^  ac_regbank<32, mips1_parms::ac_word, mips1_parms::ac_Dword> RB;$/;"	m	class:mips1_arch
 RB	mips1_arch_ref.H	/^  ac_regbank<32, mips1_parms::ac_word, mips1_parms::ac_Dword>& RB;$/;"	m	class:mips1_arch_ref
-Ra	mips1_isa.cpp	52;"	d	file:
+Ra	mips1_isa.cpp	54;"	d	file:
 SRCS	Makefile	/^SRCS := main.cpp $(ACSRCS) $(ACFILES)  $(MODULE)_syscall.cpp$/;"	m
 ST0	mips1_parms.H	/^enum ac_stage_list {ST0};$/;"	e	enum:mips1_parms::ac_stage_list
+STRONG_N_TAKEN	branchpredictor.h	23;"	d
+STRONG_TAKEN	branchpredictor.h	26;"	d
 SYSTEMC	Makefile	/^SYSTEMC :=  \/home\/staff\/rodolfo\/mc723\/systemc$/;"	m
-Sp	mips1_isa.cpp	53;"	d	file:
+Sp	mips1_isa.cpp	55;"	d	file:
+TABLE_SIZE	branchpredictor.h	29;"	d
 TARGET_ARCH	Makefile	/^TARGET_ARCH :=  linux64$/;"	m
+TwoBitPredictor	branchpredictor.cpp	/^TwoBitPredictor::TwoBitPredictor ()$/;"	f	class:TwoBitPredictor
+TwoBitPredictor	branchpredictor.h	/^class TwoBitPredictor {$/;"	c
+WEAK_N_TAKEN	branchpredictor.h	24;"	d
+WEAK_TAKEN	branchpredictor.h	25;"	d
 _MIPS1_ARCH_REF_H	mips1_arch_ref.H	17;"	d
 _MIPS1_BHV_MACROS_H	mips1_bhv_macros.H	2;"	d
 _MIPS1_H	mips1.H	17;"	d
 _MIPS1_ISA_H	mips1_isa.H	17;"	d
 _MIPS1_PARMS_H	mips1_parms.H	17;"	d
+_branchPredictionBuffer	branchpredictor.h	/^typedef struct _branchPredictionBuffer$/;"	s
 ac_Dword	mips1_parms.H	/^typedef  unsigned long long ac_Dword; 	 \/\/!< Signed double word.$/;"	t	namespace:mips1_parms
 ac_Hword	mips1_parms.H	/^typedef  unsigned short int  ac_Hword; 	 \/\/!< Unsigned half word.$/;"	t	namespace:mips1_parms
 ac_SDword	mips1_parms.H	/^typedef  long long ac_SDword; 	 \/\/!< Signed double word.$/;"	t	namespace:mips1_parms
@@ -213,17 +223,32 @@ ac_pc	mips1_arch.H	/^  ac_reg<unsigned> ac_pc;$/;"	m	class:mips1_arch
 ac_pc	mips1_arch_ref.H	/^  ac_reg<unsigned>& ac_pc;$/;"	m	class:mips1_arch_ref
 ac_stage_list	mips1_parms.H	/^enum ac_stage_list {ST0};$/;"	g	namespace:mips1_parms
 ac_word	mips1_parms.H	/^typedef  unsigned int ac_word; 	 \/\/!< Unsigned word.$/;"	t	namespace:mips1_parms
+access	cache.cpp	/^void cache::access(int addr) {$/;"	f	class:cache
+acpc	pipeline.h	/^		int acpc;$/;"	m	class:fase
 addr	pipeline.h	/^		int addr;$/;"	m	class:fase
 always_taken	mips1_isa.cpp	/^int always_taken = 0;$/;"	v
 archc_options	main.cpp	/^const char *archc_options="-abi ";$/;"	v
 archc_version	main.cpp	/^const char *archc_version="2.2";$/;"	v
+assoc4	cache.h	/^	vector < set < int > > assoc4;$/;"	m	class:cache
+atualizaTag	cache.cpp	/^void cache::atualizaTag (int t, int addr) {$/;"	f	class:cache
 aux_mem	mips1_isa.cpp	/^bool aux_mem = false;$/;"	v
 behavior	mips1.cpp	/^void mips1::behavior() {$/;"	f	class:mips1
 bhv_pc	mips1.H	/^  unsigned bhv_pc;$/;"	m	class:mips1
+bitsLinhas	cache.h	/^	int bitsLinhas;$/;"	m	class:cache
 branch	pipeline.h	/^		bool branch;$/;"	m	class:fase
+branchPredictionBuffer	branchpredictor.h	/^		vector < BPB * > branchPredictionBuffer;$/;"	m	class:TwoBitPredictor
+branchTaken	branchpredictor.h	/^		bool branchTaken;$/;"	m	class:TwoBitPredictor
 branch_count	mips1_isa.cpp	/^int branch_count = 0;$/;"	v
 branch_state_aux	mips1_isa.cpp	/^bool branch_state_aux;$/;"	v
+branchesNotTaken	branchpredictor.h	/^		int branchesNotTaken;$/;"	m	class:TwoBitPredictor
+branchesTaken	branchpredictor.h	/^		int branchesTaken;$/;"	m	class:TwoBitPredictor
+cache	cache.cpp	/^cache::cache (int size, int n, int wd, int w) {$/;"	f	class:cache
+cache	cache.h	/^class cache {$/;"	c
 cache_item_t	mips1.H	/^  typedef cache_item<mips1_parms::AC_DEC_FIELD_NUMBER> cache_item_t;$/;"	t	class:mips1
+caching	mips1_isa.cpp	/^void caching () {$/;"	f
+checkIfBranchTaken	branchpredictor.cpp	/^bool TwoBitPredictor::checkIfBranchTaken ( int ac_pc, int npc )$/;"	f	class:TwoBitPredictor
+correctPredictions	branchpredictor.h	/^		int correctPredictions;$/;"	m	class:TwoBitPredictor
+count	branchpredictor.h	/^	int count;$/;"	m	struct:_branchPredictionBuffer
 cur_instr_id	mips1_isa.H	/^  int cur_instr_id;$/;"	m	class:mips1_parms::mips1_isa
 dec_list	mips1_isa.H	/^  static ac_dec_list dec_list[AC_DEC_LIST_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
 dec_list	mips1_isa_init.cpp	/^ac_dec_list mips1_parms::mips1_isa::dec_list[mips1_parms::AC_DEC_LIST_NUMBER] = {$/;"	m	class:mips1_parms::mips1_isa	file:
@@ -237,8 +262,9 @@ ex_hazards	mips1_isa.cpp	/^int ex_hazards = 0;$/;"	v
 exmem_rd	mips1_isa.cpp	/^unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;$/;"	v
 exmem_rs	mips1_isa.cpp	/^unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;$/;"	v
 exmem_rt	mips1_isa.cpp	/^unsigned int exmem_rd = 1000, exmem_rs = 1000, exmem_rt = 1000;$/;"	v
+extraiData	cache.cpp	/^int cache::extraiData (int addr) {$/;"	f	class:cache
 fase	pipeline.cpp	/^fase::fase () {$/;"	f	class:fase
-fase	pipeline.cpp	/^fase::fase (int op) {$/;"	f	class:fase
+fase	pipeline.cpp	/^fase::fase (int op, int ac_pc) {$/;"	f	class:fase
 fase	pipeline.h	/^class fase {$/;"	c
 fields	mips1_isa.H	/^  static ac_dec_field fields[AC_DEC_FIELD_NUMBER];$/;"	m	class:mips1_parms::mips1_isa
 fields	mips1_isa_init.cpp	/^ac_dec_field mips1_parms::mips1_isa::fields[mips1_parms::AC_DEC_FIELD_NUMBER] = {$/;"	m	class:mips1_parms::mips1_isa	file:
@@ -248,6 +274,7 @@ forward1A	mips1_isa.cpp	/^int forward1A = 0;$/;"	v
 forward1B	mips1_isa.cpp	/^int forward1B = 0;$/;"	v
 forward2A	mips1_isa.cpp	/^int forward2A = 0;$/;"	v
 forward2B	mips1_isa.cpp	/^int forward2B = 0;$/;"	v
+getPrediction	branchpredictor.cpp	/^int TwoBitPredictor::getPrediction ( int bpbIndex )$/;"	f	class:TwoBitPredictor
 get_ac_pc	mips1.cpp	/^unsigned mips1::get_ac_pc() {$/;"	f	class:mips1
 get_buffer	mips1_syscall.cpp	/^void mips1_syscall::get_buffer(int argn, unsigned char* buf, unsigned int size)$/;"	f	class:mips1_syscall
 get_cycles	mips1_isa.H	/^  inline unsigned get_cycles() { return instr_table[cur_instr_id].ac_instr_cycles; };$/;"	f	class:mips1_parms::mips1_isa
@@ -257,15 +284,18 @@ get_min_latency	mips1_isa.H	/^  inline unsigned get_min_latency() { return instr
 get_mnemonic	mips1_isa.H	/^  inline const char* get_mnemonic() { return instr_table[cur_instr_id].ac_instr_mnemonic; }$/;"	f	class:mips1_parms::mips1_isa
 get_name	mips1_isa.H	/^  inline const char* get_name() { return instr_table[cur_instr_id].ac_instr_name; }$/;"	f	class:mips1_parms::mips1_isa
 get_size	mips1_isa.H	/^  inline unsigned get_size() { return instr_table[cur_instr_id].ac_instr_size; };$/;"	f	class:mips1_parms::mips1_isa
+half	pipeline.h	/^		bool half;$/;"	m	class:fase
 has_delayed_load	mips1.H	/^  bool has_delayed_load;$/;"	m	class:mips1
 hi	mips1_arch.H	/^  ac_reg<mips1_parms::ac_word> hi;$/;"	m	class:mips1_arch
 hi	mips1_arch_ref.H	/^  ac_reg<mips1_parms::ac_word>& hi;$/;"	m	class:mips1_arch_ref
+hits	cache.h	/^	int misses, hits;$/;"	m	class:cache
 id	mips1.H	/^  unsigned id;$/;"	m	class:mips1
 imm	pipeline.h	/^		int imm;$/;"	m	class:fase
 init	mips1.cpp	/^void mips1::init() {$/;"	f	class:mips1
 init	mips1.cpp	/^void mips1::init(int ac, char *av[]) {$/;"	f	class:mips1
 init	pipeline.h	/^		bool init;$/;"	m	class:fase
 init_dec_cache	mips1.H	/^  void init_dec_cache() {$/;"	f	class:mips1
+insertNewPrediction	branchpredictor.cpp	/^void TwoBitPredictor::insertNewPrediction ( int index, int value )$/;"	f	class:TwoBitPredictor
 inst	pipeline.h	/^		int inst;$/;"	m	class:fase
 instr_dec	mips1.H	/^  unsigned* instr_dec;$/;"	m	class:mips1
 instr_table	mips1_isa.H	/^  static const ac_instr_info instr_table[AC_DEC_INSTR_NUMBER + 1];$/;"	m	class:mips1_parms::mips1_isa
@@ -278,6 +308,8 @@ lo	mips1_arch_ref.H	/^  ac_reg<mips1_parms::ac_word>& lo;$/;"	m	class:mips1_arch
 load	mips1.cpp	/^void mips1::load(char* program) {$/;"	f	class:mips1
 load	mips1_isa.cpp	/^bool load = false;$/;"	v
 main	hello.c	/^int main(){$/;"	f
+mem	pipeline.h	/^		bool mem; 		\/\/ Para a cache$/;"	m	class:fase
+memAddr	pipeline.h	/^		int memAddr;		\/\/ Para a cache$/;"	m	class:fase
 memRead	pipeline.h	/^		bool memRead;$/;"	m	class:fase
 mem_hazards	mips1_isa.cpp	/^int mem_hazards = 0;$/;"	v
 mem_read	mips1_gdb_funcs.cpp	/^unsigned char mips1::mem_read( unsigned int address ) {$/;"	f	class:mips1
@@ -298,6 +330,8 @@ mips1_parms	mips1_isa.H	/^namespace mips1_parms$/;"	n
 mips1_parms	mips1_parms.H	/^namespace mips1_parms {$/;"	n
 mips1_syscall	mips1_syscall.H	/^  mips1_syscall(mips1_arch& ref) : ac_syscall<mips1_parms::ac_word, mips1_parms::ac_Hword>(ref, mips1_parms::AC_RAMSIZE), mips1_arch_ref(ref) {};$/;"	f	class:mips1_syscall
 mips1_syscall	mips1_syscall.H	/^class mips1_syscall : public ac_syscall<mips1_parms::ac_word, mips1_parms::ac_Hword>, public mips1_arch_ref$/;"	c
+missPredictions	branchpredictor.h	/^		int missPredictions; $/;"	m	class:TwoBitPredictor
+misses	cache.h	/^	int misses, hits;$/;"	m	class:cache
 mytypei	mips1_isa.cpp	/^int mytypei = 0;$/;"	v
 mytypej	mips1_isa.cpp	/^int mytypej = 0;$/;"	v
 mytyper	mips1_isa.cpp	/^int mytyper = 0;$/;"	v
@@ -311,6 +345,9 @@ npc	mips1_arch.H	/^  ac_reg<mips1_parms::ac_word> npc;$/;"	m	class:mips1_arch
 npc	mips1_arch_ref.H	/^  ac_reg<mips1_parms::ac_word>& npc;$/;"	m	class:mips1_arch_ref
 one_bit_count	mips1_isa.cpp	/^int one_bit_count = 0;$/;"	v
 one_bit_preditor	mips1_isa.cpp	/^Onebit one_bit_preditor[10000000];$/;"	v
+predict	branchpredictor.cpp	/^void TwoBitPredictor::predict(int ac_pc, int npc)$/;"	f	class:TwoBitPredictor
+prediction	branchpredictor.h	/^		int prediction;$/;"	m	class:TwoBitPredictor
+predictionBPBIndex	branchpredictor.h	/^		int predictionBPBIndex;$/;"	m	class:TwoBitPredictor
 project_file	main.cpp	/^const char *project_file="mips1.ac";$/;"	v
 project_name	main.cpp	/^const char *project_name="mips1";$/;"	v
 rd	pipeline.h	/^		int rs, rt, rd;$/;"	m	class:fase
@@ -321,7 +358,9 @@ reg_write	mips1_isa.cpp	/^bool reg_write = false;$/;"	v
 return_from_syscall	mips1_syscall.cpp	/^void mips1_syscall::return_from_syscall()$/;"	f	class:mips1_syscall
 rs	pipeline.h	/^		int rs, rt, rd;$/;"	m	class:fase
 rt	pipeline.h	/^		int rs, rt, rd;$/;"	m	class:fase
+saturatingCounter	branchpredictor.h	/^	int saturatingCounter;$/;"	m	struct:_branchPredictionBuffer
 sc_main	main.cpp	/^int sc_main(int ac, char *av[])$/;"	f
+setBranch	pipeline.cpp	/^void fase::setBranch () {$/;"	f	class:fase
 set_ac_pc	mips1.cpp	/^void mips1::set_ac_pc(unsigned int value) {$/;"	f	class:mips1
 set_buffer	mips1_syscall.cpp	/^void mips1_syscall::set_buffer(int argn, unsigned char* buf, unsigned int size)$/;"	f	class:mips1_syscall
 set_buffer_noinvert	mips1_syscall.cpp	/^void mips1_syscall::set_buffer_noinvert(int argn, unsigned char* buf, unsigned int size)$/;"	f	class:mips1_syscall
@@ -332,7 +371,13 @@ start_up	mips1.H	/^  bool start_up;$/;"	m	class:mips1
 state	mips1_isa.cpp	/^	bool state;$/;"	m	struct:Onebit	file:
 stop	mips1.cpp	/^void mips1::stop(int status) {$/;"	f	class:mips1
 syscall	mips1_isa.H	/^  mips1_syscall syscall;$/;"	m	class:mips1_parms::mips1_isa
+tag	cache.h	/^	vector < int > tag;$/;"	m	class:cache
+valid	cache.h	/^	vector < bool > valid;$/;"	m	class:cache
 verificaStalls	mips1_isa.cpp	/^void verificaStalls () {$/;"	f
+ways	cache.h	/^	int ways;				\/\/ numero de ways$/;"	m	class:cache
+withFstalls	mips1_isa.cpp	/^int withFstalls = 0;$/;"	v
+words	cache.h	/^	int words;$/;"	m	class:cache
+~TwoBitPredictor	branchpredictor.cpp	/^TwoBitPredictor::~TwoBitPredictor ()$/;"	f	class:TwoBitPredictor
 ~mips1	mips1.H	/^  virtual ~mips1() {};$/;"	f	class:mips1
 ~mips1_arch	mips1_arch.H	/^  virtual ~mips1_arch() {};$/;"	f	class:mips1_arch
 ~mips1_syscall	mips1_syscall.H	/^  virtual ~mips1_syscall() {};$/;"	f	class:mips1_syscall
