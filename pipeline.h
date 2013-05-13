@@ -36,6 +36,7 @@ class fase {
 		int rs, rt, rd;
 		int imm;
 		int addr;
+		int memAddr;		// Para a cache
 		int acpc;
 
 		void setBranch ();
