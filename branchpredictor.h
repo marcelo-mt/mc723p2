@@ -26,7 +26,7 @@
 #define STRONG_TAKEN 		3
 #define FIRST_PREDICTION	WEAK_N_TAKEN
 
-#define TABLE_SIZE			100000
+#define TABLE_SIZE			10000000
 
 using namespace std;
 

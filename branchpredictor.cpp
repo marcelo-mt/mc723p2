@@ -69,17 +69,17 @@ void TwoBitPredictor::predict(int ac_pc, int npc)
 	   update prediction - salva o indice do elemento ateh aki
     */
 	/* Getting prediction for branch */ 
-	printf("starting prediction %d, %d\n", ac_pc, npc);
+	/* printf("starting prediction %d, %d\n", ac_pc, npc); */
 	predictionBPBIndex = (ac_pc % TABLE_SIZE);
-	cout << "index: " << predictionBPBIndex;
+	/* cout << "index: " << predictionBPBIndex; */
 	prediction = getPrediction(predictionBPBIndex);
-	cout << " | prediction: " << prediction;
+	/* cout << " | prediction: " << prediction; */
 	branchTaken = checkIfBranchTaken(ac_pc, npc);
 	/* Computing stats */
 	if (branchTaken)
 	{
 		branchesTaken++;
-		cout << " - TAKEN" << endl;
+		/* cout << " - TAKEN" << endl; */
 		if ((prediction == WEAK_TAKEN) || (prediction == STRONG_TAKEN))
 			correctPredictions++;
 		else
@@ -88,7 +88,7 @@ void TwoBitPredictor::predict(int ac_pc, int npc)
 	else
 	{
 		branchesNotTaken++;
-		cout << " - NOT TAKEN " << endl;
+		/* cout << " - NOT TAKEN " << endl; */
 		if ((prediction == WEAK_N_TAKEN) || (prediction == STRONG_N_TAKEN))
 			correctPredictions++;
 		else

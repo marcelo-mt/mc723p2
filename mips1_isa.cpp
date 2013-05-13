@@ -174,10 +174,12 @@ void ac_behavior( instruction )
 	npc = ac_pc + 4;
 #endif 
 
+	/*
 	if (op==50) {
 		cout << "acpc Geral: " << ac_pc << " | " << "npc Geral: " << npc << endl;
 		cout << "second" << endl;
 	}
+	*/
 };
 
 int mytyper = 0;
@@ -945,7 +947,7 @@ void ac_behavior( beq )
 		not_taken++;
 		branch_state_aux = true;
 	}	else always_taken++;
-	cout << "BEQ: ac_pc: " << ac_pc << " npc " << npc << " imm: " << imm << endl << endl;
+	/* cout << "BEQ: ac_pc: " << ac_pc << " npc " << npc << " imm: " << imm << endl << endl; */
 	OneBitFunc(imm, branch_state_aux);
 	NaiveFunc(branch_state_aux);
 };
