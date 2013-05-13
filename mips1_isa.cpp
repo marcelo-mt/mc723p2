@@ -935,7 +935,7 @@ void ac_behavior( jalr )
 //!Instruction beq behavior method.
 void ac_behavior( beq )
 {
-	cout << "first" << op << endl;
+	/* cout << "first" << op << endl; */
 	branch_count++;
 	branch_state_aux = false;
 	dbg_printf("beq r%d, r%d, %d\n", rt, rs, imm & 0xFFFF);

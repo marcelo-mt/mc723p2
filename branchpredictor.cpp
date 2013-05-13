@@ -19,9 +19,9 @@
 
 TwoBitPredictor::TwoBitPredictor ()
 {
-	int i;
+	/* int i;
 	//constructor
-	//printf("Constructing Branch Predictor...\n");
+	//printf("Constructing Branch Predictor...\n"); */
 	branchesTaken = 0;
 	branchesNotTaken = 0;
 	correctPredictions = 0;

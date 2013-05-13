@@ -1,3 +1,20 @@
+/*
+  	MC723 - 2013s1 - 	Laboratorio de Projeto
+                            	de
+    	               Sistemas Computacionais
+	Grupo 16:
+  	
+  	73805	Victor de Oliveira Carmona
+	94139	Marcelo Mingatos de Toledo
+	105008	Guilherme Alcarde Gallo
+
+	Prof. Rodolfo
+
+	P2: Modelagem de processador em alto nivel
+	14/05/2013
+	branchpredictor.h
+*/
+
 #include <iostream>
 #include <set>
 
