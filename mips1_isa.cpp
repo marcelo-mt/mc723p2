@@ -450,7 +450,6 @@ void ac_behavior( lui )
 //!Instruction add behavior method.
 void ac_behavior( add )
 {
-	nadds++;
 	dbg_printf("add r%d, r%d, r%d\n", rd, rs, rt);
 	RB[rd] = RB[rs] + RB[rt];
 	dbg_printf("Result = %#x\n", RB[rd]);
