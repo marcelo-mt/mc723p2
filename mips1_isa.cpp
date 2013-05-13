@@ -79,9 +79,40 @@ int forward2A = 0;
 int forward2B = 0;
 int withFstalls = 0;
 int noFstalls = 0;	// Numero Stalls na ausencia de forwards
+int nCiclos = 0;
 
-// Cache -> size, bits por bloco, quantas palavras por bloco, num de ways'
-cache c(32,12);
+// Cache -> size, bits por bloco, quantas palavras por bloco, bits de ways
+cache c00(32,4,1,0);
+cache c01(32,8,1,0);
+cache c02(32,8,1,0);
+
+cache c10(32,4,2,1);
+cache c11(32,8,2,1);
+cache c12(32,12,2,1);
+
+cache c20(32,4,4,2);
+cache c21(32,8,4,2);
+cache c22(32,12,4,2);
+
+cache c30(32,4,8,3);
+cache c31(32,8,8,3);
+cache c32(32,12,8,3);
+
+cache im00(32, 4, 1, 0);
+cache im01(32, 8, 1, 0);
+cache im02(32, 12, 1, 0);
+
+cache im10(32, 4, 2, 1);
+cache im11(32, 6, 2, 1);
+cache im12(32, 8, 2, 1);
+
+cache im20(32, 4, 4, 2);
+cache im21(32, 6, 4, 2);
+cache im22(32, 8, 4, 2);
+
+cache im30(32, 4, 8, 3);
+cache im31(32, 6, 8, 3);
+cache im32(32, 8, 8, 3);
 
 vector < fase > pipeline (FASES-1);
 // Exemplo: pipeline de 5 estagios
@@ -136,7 +167,18 @@ void verificaStalls () {
 
 void caching () {
 	if(pipeline[MEM_WB].mem) {
-		c.access(pipeline[MEM_WB].memAddr);
+		c00.access(pipeline[MEM_WB].memAddr);
+		c01.access(pipeline[MEM_WB].memAddr);
+		c02.access(pipeline[MEM_WB].memAddr);
+		c10.access(pipeline[MEM_WB].memAddr);
+		c11.access(pipeline[MEM_WB].memAddr);
+		c12.access(pipeline[MEM_WB].memAddr);
+		c30.access(pipeline[MEM_WB].memAddr);
+		c31.access(pipeline[MEM_WB].memAddr);
+		c32.access(pipeline[MEM_WB].memAddr);
+		c20.access(pipeline[MEM_WB].memAddr);
+		c21.access(pipeline[MEM_WB].memAddr);
+		c22.access(pipeline[MEM_WB].memAddr);
 	}
 }
 
@@ -144,10 +186,23 @@ void caching () {
 void ac_behavior( instruction )
 {
 	dbg_printf("----- PC=%#x ----- %lld\n", (int) ac_pc, ac_instr_counter);
+	nCiclos++;
 
 	verificaStalls();
 
 	caching();
+	im00.access(ac_pc);
+	im10.access(ac_pc);
+	im20.access(ac_pc);
+	im30.access(ac_pc);
+	im01.access(ac_pc);
+	im11.access(ac_pc);
+	im21.access(ac_pc);
+	im31.access(ac_pc);
+	im02.access(ac_pc);
+	im12.access(ac_pc);
+	im22.access(ac_pc);
+	im32.access(ac_pc);
 
 	/*
 	if (pipeline[IF_ID].branch) {
@@ -336,6 +391,7 @@ int nadds = 0;
 //!Behavior called before starting simulation
 void ac_behavior(begin)
 {
+	nCiclos++;
 	dbg_printf("@@@ begin behavior @@@\n");
 	RB[0] = 0;
 	npc = ac_pc + 4;
@@ -371,7 +427,39 @@ void ac_behavior(end)
 	// do pipeline
 	cout << "Numero de stalls se nao houvesse forward: " << noFstalls+withFstalls << endl;
 	cout << "Numero de stalls com forward: " << withFstalls << endl;
-	cout << "Misses " << c.misses << " Hits: " << c.hits << endl;
+	FILE *fd;
+	fd = fopen("logStalls","a");
+	fprintf(fd, "%d, %d\n", noFstalls+withFstalls, withFstalls);
+	fclose(fd);
+	fd = fopen("logCiclos","a");
+	fprintf(fd, "%d, %d\n", nCiclos, nCiclos+4);
+	fclose(fd);
+//cout << "Misses " << c.misses << " Hits: " << c.hits << endl;
+	im00.detalhes(0);
+	im01.detalhes(0);
+	im02.detalhes(0);
+	im10.detalhes(0);
+	im11.detalhes(0);
+	im12.detalhes(0);
+	im20.detalhes(0);
+	im21.detalhes(0);
+	im22.detalhes(0);
+	im30.detalhes(0);
+	im31.detalhes(0);
+	im32.detalhes(0);
+
+	c00.detalhes(1);
+	c01.detalhes(1);
+	c02.detalhes(1);
+	c10.detalhes(1);
+	c11.detalhes(1);
+	c12.detalhes(1);
+	c20.detalhes(1);
+	c21.detalhes(1);
+	c22.detalhes(1);
+	c30.detalhes(1);
+	c31.detalhes(1);
+	c32.detalhes(1);
 }
 
 
@@ -420,8 +508,10 @@ void ac_behavior( lhu )
 	dbg_printf("Result = %#x\n", RB[rt]);
 	reg_write = true;
 	load = true;
+	/*
 	printf("\n Addr rt: %#x %d\n", rt, rt, rt);
 	printf("\n RB[rs]: %#X %d\n", RB[rs], RB[rs]);
+	*/
 };
 
 //!Instruction lw behavior method.
