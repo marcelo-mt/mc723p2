@@ -1,10 +1,10 @@
-#include <vector>
-#include <math.h>
-#include <set>
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
+#include<vector>
+#include<math.h>
+#include<set>
+#include<time.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
 
 using namespace std;
 

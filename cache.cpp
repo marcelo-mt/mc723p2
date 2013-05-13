@@ -49,6 +49,7 @@ void cache::access(int addr) {
 		atualizaTag(index, addr);		// Incrementa miss tambem
 		return;
 	}
+
 	if (assoc4[index].find(extraiData(addr))!=assoc4[index].end()) {
 		hits++;
 	}
@@ -64,4 +65,5 @@ void cache::detalhes (int option) {
 	int tam = (1+32*(1 << ways)+(32-bitsLinhas))*(1 << bitsLinhas)/(8192);
 	fprintf(fp, "%d, %d, %d, %d, %.2f%%, %d, %d\n", option, (1 << ways), (1 << bitsLinhas), tam, 100*hitRatio, hits, misses);
 	fclose(fp);
+
 }
