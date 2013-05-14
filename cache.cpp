@@ -24,11 +24,14 @@ void cache::atualizaTag (int t, int addr) {
 	//cout << "Tamanho do set[" << t << "]: " << assoc4[t].size() << endl;
 	if(assoc4[t].size() >= (1 << ways) ) {
 		srand(time(NULL));
-		int tmp = rand()%(1<<bitsLinhas);
+		int tmp = rand()%(1<<ways);
 //		cout << "Candidato a ser removido " << tmp << " found: " << *(assoc4[t].lower_bound(tmp)) << endl;
 		//assoc4[t].erase(assoc4[t].find(tmp));
 		set <int>::iterator it = assoc4[t].begin();
-		assoc4[t].erase(assoc4[t].begin());
+		for (int aux=0; aux < tmp; aux++)
+			it++;
+		assoc4[t].erase(it);
+		//assoc4[t].erase(assoc4[t].begin());
 		assoc4[t].insert(extraiData(addr));
 		//cout << " del " << *it << endl;
 	}
