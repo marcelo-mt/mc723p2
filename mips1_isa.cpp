@@ -79,7 +79,7 @@ int nCiclos = 0;
 // Cache -> size, bits por bloco, quantas palavras por bloco, bits de ways
 cache c00(32,4,1,0);
 cache c01(32,8,1,0);
-cache c02(32,8,1,0);
+cache c02(32,12,1,0);
 
 cache c10(32,4,2,1);
 cache c11(32,8,2,1);
