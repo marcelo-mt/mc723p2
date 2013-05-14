@@ -286,7 +286,11 @@ void ac_behavior(end)
 	fd = fopen("logCiclos","a");
 	fprintf(fd, "%d, %d\n", nCiclos, nCiclos+4);
 	fclose(fd);
-//cout << "Misses " << c.misses << " Hits: " << c.hits << endl;
+	cout << "Cache:" << endl;
+	cout << "\tInstructions" << endl;
+	cout << "\tMisses " << im02.misses << " Hits: " << im02.hits << endl;
+	cout << "\tData" << endl;
+	cout << "\tMisses " << c22.misses << " Hits: " << c22.hits << endl;
 	//im00.detalhes(0);
 	//im01.detalhes(0);
 	im02.detalhes(0);

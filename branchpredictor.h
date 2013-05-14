@@ -20,13 +20,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define STRONG_N_TAKEN		0
-#define WEAK_N_TAKEN		1
-#define WEAK_TAKEN 			2
-#define STRONG_TAKEN 		3
-#define FIRST_PREDICTION	WEAK_N_TAKEN
+#define STRONG_N_TAKEN      0
+#define WEAK_N_TAKEN        1
+#define WEAK_TAKEN          2
+#define STRONG_TAKEN        3
+#define FIRST_PREDICTION    WEAK_N_TAKEN
 
-#define TABLE_SIZE			10000000
+#define TABLE_SIZE          256
 
 using namespace std;
 
